@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { CloseIcon, UploadIcon } from '@/components/icons';
+import { PageBackdrop } from '@/components/site/page-backdrop';
 import { formatDate, formatTime } from '@/lib/format';
 import { useAdminSession } from '@/lib/use-admin-session';
 import type { Post } from '@/lib/types';
@@ -112,6 +113,7 @@ export function SaysFeed({ initialPosts }: { initialPosts: Post[] }) {
     <div className={styles.layout}>
       <div>
         <header className={`${styles.header} reveal`}>
+          <PageBackdrop src="/photos/photo-02.png" position="center 40%" />
           <div>
             <p className="eyebrow">01 · Daily notes</p>
             <h1 className="page-title">日常说说</h1>

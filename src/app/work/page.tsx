@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowUpRight } from '@/components/icons';
+import { PageBackdrop } from '@/components/site/page-backdrop';
 import { readCollection } from '@/lib/storage';
 import type { Work } from '@/lib/types';
 import styles from './work.module.css';
@@ -20,6 +21,7 @@ export default async function WorkPage() {
     <main className="main">
       <div className="shell">
         <header className={`${styles.header} reveal`}>
+          <PageBackdrop src="/photos/photo-10.png" position="center 45%" />
           <div>
             <p className="eyebrow">04 · Selected work</p>
             <h1 className="page-title">工作展示</h1>

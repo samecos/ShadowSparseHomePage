@@ -5,6 +5,8 @@
 /* ── 工具栏 ─────────────────────────────────────── */
 
 .toolbar {
+  position: relative;
+  isolation: isolate;
   margin-bottom: 10px;
 }
 

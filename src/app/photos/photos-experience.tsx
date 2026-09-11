@@ -13,6 +13,7 @@ import {
   TrashIcon,
   UploadIcon
 } from '@/components/icons';
+import { PageBackdrop } from '@/components/site/page-backdrop';
 import { formatBytes, formatDate, formatTime } from '@/lib/format';
 import { readPhotoExif } from '@/lib/exif';
 import { groupPhotosByDay, sortPhotos, TRASH_RETENTION_DAYS } from '@/lib/photos';
@@ -478,6 +479,7 @@ export function PhotosExperience({
   return (
     <div className={styles.page}>
       <header className={styles.toolbar}>
+        <PageBackdrop src="/photos/photo-07.png" position="center 26%" />
         <div className={styles.toolbarTop}>
           <div>
             <p className="eyebrow">02 · Library</p>

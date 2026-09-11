@@ -1,4 +1,6 @@
 .header {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 48px;

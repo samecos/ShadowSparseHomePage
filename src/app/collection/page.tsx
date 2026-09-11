@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { readCollection } from '@/lib/storage';
 import type { Collectible } from '@/lib/types';
+import { PageBackdrop } from '@/components/site/page-backdrop';
 import { CollectionGrid } from './collection-grid';
 import styles from './collection.module.css';
 
@@ -21,6 +22,7 @@ export default async function CollectionPage() {
     <main className="main">
       <div className="shell">
         <header className={`${styles.header} reveal`}>
+          <PageBackdrop src="/photos/photo-04.png" position="center 40%" />
           <div>
             <p className="eyebrow">05 · Agent managed</p>
             <h1 className="page-title">有趣的搜集</h1>

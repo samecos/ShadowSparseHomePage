@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowUpRight } from '@/components/icons';
+import { PageBackdrop } from '@/components/site/page-backdrop';
 import { formatDate } from '@/lib/format';
 import { site } from '@/lib/site';
 import { readCollection } from '@/lib/storage';
@@ -89,14 +90,7 @@ export default async function HomePage() {
     <main className="main">
       <div className="shell">
         <section className={`${styles.hero} reveal`}>
-          <div className={styles.heroBackdrop} aria-hidden="true">
-            <img
-              className={styles.heroBackdropImage}
-              src="/photos/photo-01.png"
-              alt=""
-              decoding="async"
-            />
-          </div>
+          <PageBackdrop src="/photos/photo-01.png" />
           <div className={styles.heroMain}>
             <p className={`eyebrow ${styles.heroEyebrow}`}>Personal index · {currentYear}</p>
             <h1 className={`display ${styles.heroTitle}`}>

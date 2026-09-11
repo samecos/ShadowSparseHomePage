@@ -6,6 +6,8 @@
 }
 
 .header {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;

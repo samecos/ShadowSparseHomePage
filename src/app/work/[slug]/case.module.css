@@ -13,6 +13,8 @@
 }
 
 .hero {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
   gap: 56px;

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, ArrowUpRight } from '@/components/icons';
+import { PageBackdrop } from '@/components/site/page-backdrop';
 import { readCollection } from '@/lib/storage';
 import type { Work } from '@/lib/types';
 import styles from './case.module.css';
@@ -37,6 +38,7 @@ export default async function WorkCasePage({ params }: PageProps) {
         </Link>
 
         <header className={`${styles.hero} reveal`}>
+          <PageBackdrop src="/photos/photo-10.png" position="center 45%" />
           <div>
             <p className="eyebrow">
               {work.year} · {work.client ?? '个人项目'}
