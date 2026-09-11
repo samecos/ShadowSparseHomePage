@@ -1,0 +1,62 @@
+[
+  {
+    "id": "post_9f2c7a01",
+    "content": "开始给这个主页做减法。删掉了很多以前觉得“应该要有”的模块，最后留下来的四件事，刚好都是我愿意长期记录的。",
+    "mood": "静",
+    "images": [],
+    "location": "杭州",
+    "visibility": "public",
+    "pinned": true,
+    "createdAt": "2026-09-09T14:26:00.000Z",
+    "updatedAt": "2026-09-09T14:26:00.000Z"
+  },
+  {
+    "id": "post_c81b3e42",
+    "content": "雨停之后绕着湖走了一圈。云很低，水面几乎没有声音，适合把手机收起来。",
+    "mood": "雨",
+    "images": [
+      "/photos/photo-03.png",
+      "/photos/photo-07.png"
+    ],
+    "location": "西湖 · 北山街",
+    "visibility": "public",
+    "pinned": false,
+    "createdAt": "2026-09-06T10:12:00.000Z",
+    "updatedAt": "2026-09-06T10:12:00.000Z"
+  },
+  {
+    "id": "post_4ad90cc7",
+    "content": "把地图故事做成了可以拖拽照片的那种。以后每段记忆不只停在一个点上，它可以是一小片区域。",
+    "mood": "晴",
+    "images": [],
+    "location": "家",
+    "visibility": "public",
+    "pinned": false,
+    "createdAt": "2026-08-30T16:48:00.000Z",
+    "updatedAt": "2026-08-30T16:48:00.000Z"
+  },
+  {
+    "id": "post_7b15d3a8",
+    "content": "整理旧文件时翻到一句很喜欢的话：真正的秩序不是把一切排齐，而是让重要的东西容易被看见。",
+    "mood": "夜",
+    "images": [],
+    "location": "",
+    "visibility": "public",
+    "pinned": false,
+    "createdAt": "2026-08-24T23:05:00.000Z",
+    "updatedAt": "2026-08-24T23:05:00.000Z"
+  },
+  {
+    "id": "post_2e63f0b9",
+    "content": "九溪的水声比照片好听，但照片至少能让我想起那天穿错了鞋。",
+    "mood": "晴",
+    "images": [
+      "/photos/photo-09.png"
+    ],
+    "location": "九溪",
+    "visibility": "public",
+    "pinned": false,
+    "createdAt": "2026-08-17T09:32:00.000Z",
+    "updatedAt": "2026-08-17T09:32:00.000Z"
+  }
+]

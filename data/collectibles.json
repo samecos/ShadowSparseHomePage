@@ -1,0 +1,186 @@
+[
+  {
+    "id": "col_01",
+    "title": "The Marginalian：关于慢下来的那篇文章",
+    "type": "link",
+    "url": "https://www.themarginalian.org/",
+    "description": "一篇适合周末重读的长文。它提醒我，注意力不是被夺走的，而是一点点让渡出去的。",
+    "agentSummary": "HERMES 已读：主题与你的「日常说说」高度相关，建议归入「注意力」标签。",
+    "tags": [
+      "阅读",
+      "注意力",
+      "慢"
+    ],
+    "source": "The Marginalian",
+    "collectedBy": "hermes",
+    "status": "curated",
+    "featured": true,
+    "createdAt": "2026-09-08T03:20:00.000Z",
+    "updatedAt": "2026-09-08T03:20:00.000Z"
+  },
+  {
+    "id": "col_02",
+    "title": "雾中山脊",
+    "type": "image",
+    "image": "/photos/photo-05.png",
+    "description": "在素材库里遇到的一张图，像梅家坞那天的反面：同样安静，但更冷。",
+    "agentSummary": "与地图故事「茶山起雾时」色彩特征相似度 0.82。",
+    "tags": [
+      "图像",
+      "山",
+      "雾"
+    ],
+    "source": "灵感采集",
+    "collectedBy": "hermes",
+    "status": "curated",
+    "featured": true,
+    "createdAt": "2026-09-05T12:02:00.000Z",
+    "updatedAt": "2026-09-05T12:02:00.000Z"
+  },
+  {
+    "id": "col_03",
+    "title": "秩序不是把一切排齐，而是让重要的东西容易被看见。",
+    "type": "quote",
+    "quote": "真正的秩序不是把一切排齐，而是让重要的东西容易被看见。",
+    "description": "来自一本旧笔记的扉页，已经找不到原始出处。",
+    "agentSummary": "已提取关键词：秩序、可见性、重要。可用于主页介绍文案。",
+    "tags": [
+      "句子",
+      "秩序",
+      "设计"
+    ],
+    "source": "旧笔记",
+    "collectedBy": "me",
+    "status": "curated",
+    "featured": true,
+    "createdAt": "2026-09-01T15:40:00.000Z",
+    "updatedAt": "2026-09-01T15:40:00.000Z"
+  },
+  {
+    "id": "col_04",
+    "title": "GitHub：一个只用键盘操作的地图应用",
+    "type": "link",
+    "url": "https://github.com/",
+    "description": "适合研究地图交互与无障碍设计，代码结构非常干净。",
+    "agentSummary": "已分析技术栈：TypeScript、WebGL、无框架。与你当前地图模块可互相借鉴。",
+    "tags": [
+      "开源",
+      "地图",
+      "交互"
+    ],
+    "source": "GitHub",
+    "collectedBy": "hermes",
+    "status": "curated",
+    "featured": false,
+    "createdAt": "2026-08-26T08:15:00.000Z",
+    "updatedAt": "2026-08-26T08:15:00.000Z"
+  },
+  {
+    "id": "col_05",
+    "title": "夜航船的引擎声",
+    "type": "moment",
+    "description": "录音 18 秒。低沉的引擎声从湖面传过来，背景里有很远的人声。",
+    "agentSummary": "音频已转写，环境音标签：水面、夜、机械。",
+    "tags": [
+      "声音",
+      "夜",
+      "湖"
+    ],
+    "source": "现场记录",
+    "collectedBy": "me",
+    "status": "curated",
+    "featured": false,
+    "createdAt": "2026-08-15T14:30:00.000Z",
+    "updatedAt": "2026-08-15T14:30:00.000Z"
+  },
+  {
+    "id": "col_06",
+    "title": "一张不知道什么时候拍的底片",
+    "type": "image",
+    "image": "/photos/photo-11.png",
+    "description": "整理硬盘时发现的，可能是某次旅行的最后一张。",
+    "agentSummary": "EXIF 信息缺失。正在询问你是否要保留到「未归档」。",
+    "tags": [
+      "底片",
+      "未归档"
+    ],
+    "source": "本地文件",
+    "collectedBy": "hermes",
+    "status": "inbox",
+    "featured": false,
+    "createdAt": "2026-08-11T06:22:00.000Z",
+    "updatedAt": "2026-08-11T06:22:00.000Z"
+  },
+  {
+    "id": "col_07",
+    "title": "字体排印中的负空间",
+    "type": "file",
+    "url": "/photos/work-04.png",
+    "description": "一份 24 页的 PDF 摘要，关于中文排版里的呼吸感。",
+    "agentSummary": "已生成摘要，提取出 6 条可直接应用于本站的排版建议。",
+    "tags": [
+      "排版",
+      "中文",
+      "设计"
+    ],
+    "source": "PDF 收藏",
+    "collectedBy": "hermes",
+    "status": "curated",
+    "featured": false,
+    "createdAt": "2026-08-03T09:55:00.000Z",
+    "updatedAt": "2026-08-03T09:55:00.000Z"
+  },
+  {
+    "id": "col_08",
+    "title": "Area 上的一片冷色灵感墙",
+    "type": "link",
+    "url": "https://www.are.na/",
+    "description": "没有点赞，没有算法推荐，只有人和他们愿意花时间整理的东西。",
+    "agentSummary": "适合作为「有趣的搜集」的产品参考。已拆解其信息架构。",
+    "tags": [
+      "灵感",
+      "产品",
+      "冷色"
+    ],
+    "source": "Are.na",
+    "collectedBy": "hermes",
+    "status": "curated",
+    "featured": false,
+    "createdAt": "2026-07-30T11:18:00.000Z",
+    "updatedAt": "2026-07-30T11:18:00.000Z"
+  },
+  {
+    "id": "col_09",
+    "title": "「先让它存在，再让它变好。」",
+    "type": "quote",
+    "quote": "先让它存在，再让它变好。",
+    "agentSummary": "来自你去年的一条说说，已与新收藏建立关联。",
+    "tags": [
+      "句子",
+      "行动"
+    ],
+    "source": "旧说说",
+    "collectedBy": "hermes",
+    "status": "curated",
+    "featured": false,
+    "createdAt": "2026-07-21T16:44:00.000Z",
+    "updatedAt": "2026-07-21T16:44:00.000Z"
+  },
+  {
+    "id": "col_10",
+    "title": "未知来源的 3 个链接",
+    "type": "link",
+    "url": "https://example.com/",
+    "description": "HERMES 从某次对话中自动提取，等待人工备注。",
+    "agentSummary": "置信度较低，已放入收件箱。",
+    "tags": [
+      "待整理"
+    ],
+    "source": "Agent 收件箱",
+    "collectedBy": "hermes",
+    "status": "inbox",
+    "featured": false,
+    "createdAt": "2026-07-18T02:10:00.000Z",
+    "updatedAt": "2026-07-18T02:10:00.000Z"
+  }
+]

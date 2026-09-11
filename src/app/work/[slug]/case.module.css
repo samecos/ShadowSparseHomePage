@@ -1,0 +1,252 @@
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-faint);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  transition: color 0.25s var(--ease);
+}
+
+.back:hover {
+  color: var(--ink);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+  gap: 56px;
+  align-items: end;
+  margin-top: 42px;
+  padding-bottom: 38px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.heroTitle {
+  margin: 18px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 7vw, 82px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.heroSubtitle {
+  max-width: 42ch;
+  margin: 20px 0 0;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.summary {
+  padding-left: 26px;
+  border-left: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.summary p {
+  margin: 0;
+}
+
+.cover {
+  margin-top: 48px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--paper-deep);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.72);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.metaItem dt {
+  color: var(--ink-faint);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.metaItem dd {
+  margin: 9px 0 0;
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 48px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.metric {
+  display: grid;
+  gap: 8px;
+  padding: 28px 24px;
+  background: rgba(251, 252, 252, 0.72);
+}
+
+.metricValue {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1;
+}
+
+.metricLabel {
+  color: var(--ink-soft);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.metricNote {
+  color: var(--ink-faint);
+  font-size: 11px;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 72px;
+  align-items: center;
+  padding: 78px 0;
+  border-top: 1px solid var(--line);
+}
+
+.section:first-of-type {
+  margin-top: 48px;
+}
+
+.sectionEven {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+}
+
+.sectionEven .sectionBody {
+  order: 2;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(25px, 3.2vw, 38px);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.sectionText {
+  display: grid;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.sectionText p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 2;
+}
+
+.sectionMedia {
+  overflow: hidden;
+  background: var(--paper-deep);
+}
+
+.sectionMedia img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  filter: saturate(0.66) contrast(0.98);
+}
+
+.sectionCaption {
+  display: block;
+  margin-top: 10px;
+  color: var(--ink-faint);
+  font-size: 11px;
+}
+
+.next {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 30px;
+  align-items: end;
+  margin-top: 48px;
+  padding: 46px 0 12px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.nextLabel {
+  color: var(--ink-faint);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.nextTitle {
+  margin: 12px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 400;
+  transition: color 0.3s var(--ease);
+}
+
+.next:hover .nextTitle {
+  color: var(--accent-deep);
+}
+
+.nextArrow {
+  color: var(--accent-deep);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .summary {
+    padding-top: 4px;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .meta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .section,
+  .sectionEven {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 54px 0;
+  }
+
+  .sectionEven .sectionBody {
+    order: 0;
+  }
+
+  .next {
+    grid-template-columns: 1fr;
+  }
+}
