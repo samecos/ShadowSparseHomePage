@@ -4,7 +4,7 @@
   --paper-deep: #edf0f2;
   --ink: #191d22;
   --ink-soft: #4a525c;
-  --ink-faint: #8b939c;
+  --ink-faint: #666f79;
   --line: rgba(25, 29, 34, 0.08);
   --line-strong: rgba(25, 29, 34, 0.16);
   --accent: #658092;
@@ -364,7 +364,8 @@ img {
 
 .input::placeholder,
 .textarea::placeholder {
-  color: rgba(139, 147, 156, 0.75);
+  color: var(--ink-faint);
+  opacity: 0.85;
 }
 
 .empty {
