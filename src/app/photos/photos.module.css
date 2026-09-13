@@ -52,6 +52,12 @@
   background: rgba(255, 255, 255, 0.45);
 }
 
+.dimensionTabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .tab {
   display: inline-flex;
   align-items: center;

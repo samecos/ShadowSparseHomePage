@@ -14,6 +14,8 @@ import {
   UploadIcon
 } from '@/components/icons';
 import { PageBackdrop } from '@/components/site/page-backdrop';
+import { PeopleAlbum } from '@/components/photos/people-album';
+import { RegionAlbum } from '@/components/photos/region-album';
 import { formatBytes, formatDate, formatTime } from '@/lib/format';
 import { readPhotoExif } from '@/lib/exif';
 import { groupPhotosByDay, sortPhotos, TRASH_RETENTION_DAYS } from '@/lib/photos';
@@ -21,6 +23,7 @@ import type { Photo } from '@/lib/types';
 import styles from './photos.module.css';
 
 type ViewId = 'library' | 'favorites' | 'trash';
+type Dimension = 'time' | 'people' | 'region';
 type BatchAction = 'favorite' | 'unfavorite' | 'trash' | 'restore' | 'purge';
 
 const TILE_MIN = 96;
@@ -97,6 +100,8 @@ export function PhotosExperience({
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [tileSize, setTileSize] = useState(132);
   const [lightboxId, setLightboxId] = useState<string | null>(null);
+  const [lightboxList, setLightboxList] = useState<Photo[] | null>(null);
+  const [dimension, setDimension] = useState<Dimension>('time');
   const [infoOpen, setInfoOpen] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({ done: 0, total: 0 });
@@ -163,6 +168,8 @@ export function PhotosExperience({
     [viewList]
   );
 
+  const libraryPhotos = useMemo(() => photos.filter((photo) => !photo.deletedAt), [photos]);
+
   const libraryCount = photos.filter((photo) => !photo.deletedAt).length;
   const favoriteCount = photos.filter((photo) => photo.favorite && !photo.deletedAt).length;
   const trashCount = photos.filter((photo) => photo.deletedAt).length;
@@ -171,18 +178,32 @@ export function PhotosExperience({
     () => photos.find((photo) => photo.id === lightboxId) ?? null,
     [lightboxId, photos]
   );
-  const lightboxIndex = viewList.findIndex((photo) => photo.id === lightboxId);
+  const activeList = lightboxList ?? viewList;
+  const lightboxIndex = activeList.findIndex((photo) => photo.id === lightboxId);
+
+  const openLightbox = useCallback((photoId: string, list: Photo[]) => {
+    setLightboxList(list);
+    setLightboxId(photoId);
+    setZoomed(false);
+    setInfoOpen(false);
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setLightboxId(null);
+    setLightboxList(null);
+    setInfoOpen(false);
+  }, []);
 
   const goTo = useCallback(
     (delta: number) => {
       if (lightboxIndex === -1) return;
-      const next = viewList[lightboxIndex + delta];
+      const next = activeList[lightboxIndex + delta];
       if (next) {
         setLightboxId(next.id);
         setZoomed(false);
       }
     },
-    [lightboxIndex, viewList]
+    [lightboxIndex, activeList]
   );
 
   useEffect(() => {
@@ -204,15 +225,14 @@ export function PhotosExperience({
     if (lightboxId === null) return;
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        setLightboxId(null);
-        setInfoOpen(false);
+        closeLightbox();
       }
       if (event.key === 'ArrowLeft') goTo(-1);
       if (event.key === 'ArrowRight') goTo(1);
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [goTo, lightboxId]);
+  }, [closeLightbox, goTo, lightboxId]);
 
   useEffect(() => {
     if (lightboxId === null) return;
@@ -387,20 +407,21 @@ export function PhotosExperience({
     if (payload.data?.result === 'trashed') {
       const trashed = { ...lightboxPhoto, deletedAt: new Date().toISOString() };
       setPhotos((current) => current.map((item) => (item.id === trashed.id ? trashed : item)));
-      const next = viewList[lightboxIndex + 1] ?? viewList[lightboxIndex - 1] ?? null;
-      setLightboxId(next && next.id !== trashed.id ? next.id : null);
+      const next = activeList[lightboxIndex + 1] ?? activeList[lightboxIndex - 1] ?? null;
+      if (next && next.id !== trashed.id) setLightboxId(next.id);
+      else closeLightbox();
       return;
     }
 
     setPhotos((current) => current.filter((item) => item.id !== lightboxPhoto.id));
-    setLightboxId(null);
-    setInfoOpen(false);
+    closeLightbox();
   }
 
   async function restoreFromLightbox() {
     if (!lightboxPhoto) return;
-    const next = viewList[lightboxIndex + 1] ?? viewList[lightboxIndex - 1] ?? null;
-    setLightboxId(next ? next.id : null);
+    const next = activeList[lightboxIndex + 1] ?? activeList[lightboxIndex - 1] ?? null;
+    if (next) setLightboxId(next.id);
+    else closeLightbox();
     await applyBatch('restore', [lightboxPhoto.id]);
   }
 
@@ -485,85 +506,119 @@ export function PhotosExperience({
             <p className="eyebrow">02 · Library</p>
             <h1 className={styles.pageTitle}>照片</h1>
             <p className={styles.pageSub}>
-              {inTrash
-                ? `回收站 · 停留 ${TRASH_RETENTION_DAYS} 天后自动清除`
-                : '按拍摄时间排列。点开一张照片，可以放大、收藏和补写信息。'}
+              {dimension === 'region'
+                ? '按拍摄城市整理，地图上是每张照片的位置。'
+                : dimension === 'people'
+                  ? '自动识别并聚在一起的面孔。'
+                  : inTrash
+                    ? `回收站 · 停留 ${TRASH_RETENTION_DAYS} 天后自动清除`
+                    : '按拍摄时间排列。点开一张照片，可以放大、收藏和补写信息。'}
             </p>
           </div>
 
           <div className={styles.toolbarActions}>
-            <div className={styles.tabs} role="tablist" aria-label="照片视图">
-              {tabs.map((tab) => (
+            <div className={styles.dimensionTabs} role="tablist" aria-label="分类维度">
+              {(
+                [
+                  { id: 'time', label: '时间' },
+                  { id: 'region', label: '地区' },
+                  ...(admin ? [{ id: 'people' as const, label: '人物' }] : [])
+                ] as { id: Dimension; label: string }[]
+              ).map((item) => (
                 <button
-                  key={tab.id}
+                  key={item.id}
                   type="button"
                   role="tab"
-                  aria-selected={view === tab.id}
-                  className={`${styles.tab} ${view === tab.id ? styles.tabActive : ''}`}
+                  aria-selected={dimension === item.id}
+                  className={`${styles.tab} ${dimension === item.id ? styles.tabActive : ''}`}
                   onClick={() => {
-                    setView(tab.id);
+                    setDimension(item.id);
                     exitSelectMode();
                   }}
                 >
-                  {tab.label}
-                  <span className={styles.tabCount}>{tab.count}</span>
+                  {item.label}
                 </button>
               ))}
             </div>
 
-            <label className={styles.search}>
-              <SearchIcon size={14} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="搜索标题、地点、标签"
-                aria-label="搜索照片"
-              />
-            </label>
+            {dimension === 'time' ? (
+              <>
+                <div className={styles.tabs} role="tablist" aria-label="照片视图">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={view === tab.id}
+                      className={`${styles.tab} ${view === tab.id ? styles.tabActive : ''}`}
+                      onClick={() => {
+                        setView(tab.id);
+                        exitSelectMode();
+                      }}
+                    >
+                      {tab.label}
+                      <span className={styles.tabCount}>{tab.count}</span>
+                    </button>
+                  ))}
+                </div>
 
-            {admin ? (
-              <div className={styles.adminActions}>
-                <button
-                  type="button"
-                  className={`btn btn--small ${selectMode ? styles.selectActive : ''}`}
-                  onClick={() => (selectMode ? exitSelectMode() : setSelectMode(true))}
-                >
-                  {selectMode ? '退出选择' : '选择'}
-                </button>
-                <label className={`btn btn--small btn--primary ${styles.uploadLabel}`}>
-                  <UploadIcon size={13} />
-                  {uploading ? `上传中 ${uploadProgress.done}/${uploadProgress.total}` : '上传照片'}
+                <label className={styles.search}>
+                  <SearchIcon size={14} />
                   <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                    multiple
-                    onChange={handleUpload}
-                    disabled={uploading}
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="搜索标题、地点、标签"
+                    aria-label="搜索照片"
                   />
                 </label>
-              </div>
+
+                {admin ? (
+                  <div className={styles.adminActions}>
+                    <button
+                      type="button"
+                      className={`btn btn--small ${selectMode ? styles.selectActive : ''}`}
+                      onClick={() => (selectMode ? exitSelectMode() : setSelectMode(true))}
+                    >
+                      {selectMode ? '退出选择' : '选择'}
+                    </button>
+                    <label className={`btn btn--small btn--primary ${styles.uploadLabel}`}>
+                      <UploadIcon size={13} />
+                      {uploading ? `上传中 ${uploadProgress.done}/${uploadProgress.total}` : '上传照片'}
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                        multiple
+                        onChange={handleUpload}
+                        disabled={uploading}
+                      />
+                    </label>
+                  </div>
+                ) : null}
+              </>
             ) : null}
           </div>
         </div>
 
-        <div className={styles.toolbarBottom}>
-          <span className={styles.gridMeta}>
-            {viewList.length > 0 ? `${viewList.length} 张照片` : '没有照片'}
-          </span>
-          <label className={styles.zoomControl} aria-label="调整缩略图大小">
-            <span className={styles.zoomLabel}>缩放</span>
-            <input
-              type="range"
-              min={TILE_MIN}
-              max={TILE_MAX}
-              step={4}
-              value={tileSize}
-              onChange={(event) => setTileSize(clampTile(Number(event.target.value)))}
-            />
-          </label>
-        </div>
+        {dimension === 'time' ? (
+          <div className={styles.toolbarBottom}>
+            <span className={styles.gridMeta}>
+              {viewList.length > 0 ? `${viewList.length} 张照片` : '没有照片'}
+            </span>
+            <label className={styles.zoomControl} aria-label="调整缩略图大小">
+              <span className={styles.zoomLabel}>缩放</span>
+              <input
+                type="range"
+                min={TILE_MIN}
+                max={TILE_MAX}
+                step={4}
+                value={tileSize}
+                onChange={(event) => setTileSize(clampTile(Number(event.target.value)))}
+              />
+            </label>
+          </div>
+        ) : null}
 
-        {selectMode ? (
+        {dimension === 'time' && selectMode ? (
           <div className={styles.selectBar}>
             <button
               type="button"
@@ -635,7 +690,7 @@ export function PhotosExperience({
           </div>
         ) : null}
 
-        {inTrash && trashCount > 0 ? (
+        {dimension === 'time' && inTrash && trashCount > 0 ? (
           <div className={styles.trashRow}>
             <span className={styles.trashHint}>删除的照片会先留在这里，{TRASH_RETENTION_DAYS} 天后自动清除。</span>
             <button type="button" className="btn btn--small btn--danger" disabled={busy} onClick={emptyTrash}>
@@ -647,52 +702,58 @@ export function PhotosExperience({
         {error ? <p className={styles.error}>{error}</p> : null}
       </header>
 
-      <div ref={gridRef} className={styles.gridScope}>
-        {groups.length === 0 ? (
-          <div className="empty">
-            {view === 'favorites'
-              ? '还没有收藏的照片。'
-              : view === 'trash'
-                ? '回收站是空的。'
-                : admin
-                  ? '还没有照片。点右上角「上传照片」，把一段时光放进来。'
-                  : '这里还没有照片。'}
-          </div>
-        ) : (
-          groups.map((group) => (
-            <section key={group.key} className={styles.dayGroup}>
-              <h2 className={styles.dayHead}>{group.label}</h2>
-              <div className={styles.grid} style={{ '--tile': `${tileSize}px` } as CSSProperties}>
-                {group.items.map((photo) => {
-                  const selected = selectedIds.has(photo.id);
-                  return (
-                    <button
-                      key={photo.id}
-                      type="button"
-                      className={`${styles.tile} ${selected ? styles.tileSelected : ''}`}
-                      onClick={() => handleTileClick(photo)}
-                      aria-label={photo.title || photo.locationName || '查看照片'}
-                      aria-pressed={selectMode ? selected : undefined}
-                    >
-                      <img src={photo.url} alt={photo.title || photo.locationName || ''} loading="lazy" />
-                      {photo.favorite && !inTrash ? (
-                        <span className={styles.tileHeart} aria-label="已收藏">
-                          <HeartIcon size={11} filled />
-                        </span>
-                      ) : null}
-                      {selectMode ? (
-                        <span className={`${styles.tileCheck} ${selected ? styles.tileCheckOn : ''}`}>
-                          ✓
-                        </span>
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          ))
-        )}
-      </div>
+      {dimension === 'time' ? (
+        <div ref={gridRef} className={styles.gridScope}>
+          {groups.length === 0 ? (
+            <div className="empty">
+              {view === 'favorites'
+                ? '还没有收藏的照片。'
+                : view === 'trash'
+                  ? '回收站是空的。'
+                  : admin
+                    ? '还没有照片。点右上角「上传照片」，把一段时光放进来。'
+                    : '这里还没有照片。'}
+            </div>
+          ) : (
+            groups.map((group) => (
+              <section key={group.key} className={styles.dayGroup}>
+                <h2 className={styles.dayHead}>{group.label}</h2>
+                <div className={styles.grid} style={{ '--tile': `${tileSize}px` } as CSSProperties}>
+                  {group.items.map((photo) => {
+                    const selected = selectedIds.has(photo.id);
+                    return (
+                      <button
+                        key={photo.id}
+                        type="button"
+                        className={`${styles.tile} ${selected ? styles.tileSelected : ''}`}
+                        onClick={() => handleTileClick(photo)}
+                        aria-label={photo.title || photo.locationName || '查看照片'}
+                        aria-pressed={selectMode ? selected : undefined}
+                      >
+                        <img src={photo.url} alt={photo.title || photo.locationName || ''} loading="lazy" />
+                        {photo.favorite && !inTrash ? (
+                          <span className={styles.tileHeart} aria-label="已收藏">
+                            <HeartIcon size={11} filled />
+                          </span>
+                        ) : null}
+                        {selectMode ? (
+                          <span className={`${styles.tileCheck} ${selected ? styles.tileCheckOn : ''}`}>
+                            ✓
+                          </span>
+                        ) : null}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            ))
+          )}
+        </div>
+      ) : dimension === 'people' && admin ? (
+        <PeopleAlbum admin={admin} photos={libraryPhotos} onOpenPhoto={openLightbox} />
+      ) : (
+        <RegionAlbum photos={libraryPhotos} onOpenPhoto={openLightbox} />
+      )}
 
       {lightboxPhoto ? (
         <div
@@ -704,10 +765,7 @@ export function PhotosExperience({
           <button
             type="button"
             className={styles.lightboxClose}
-            onClick={() => {
-              setLightboxId(null);
-              setInfoOpen(false);
-            }}
+            onClick={closeLightbox}
             aria-label="关闭"
           >
             <CloseIcon size={16} />
@@ -715,7 +773,7 @@ export function PhotosExperience({
 
           <div className={styles.lightboxTop}>
             <span className={styles.lightboxCounter}>
-              {lightboxIndex + 1} / {viewList.length}
+              {lightboxIndex + 1} / {activeList.length}
             </span>
             <span className={styles.lightboxCaption}>
               {formatDate(lightboxPhoto.date)}
@@ -733,7 +791,7 @@ export function PhotosExperience({
               <ChevronLeftIcon size={22} />
             </button>
           ) : null}
-          {lightboxIndex < viewList.length - 1 ? (
+          {lightboxIndex < activeList.length - 1 ? (
             <button
               type="button"
               className={`${styles.lightboxNav} ${styles.lightboxNext}`}
