@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { fail, ok, parseBody, parseQuery } from '@/lib/api';
 import { isAuthorizedWrite, unauthorized } from '@/lib/auth';
+import { lookupRegion } from '@/lib/geo/regions';
 import { photoCreateSchema } from '@/lib/schemas';
 import { isTrashed, purgeExpiredTrash, sortPhotos, visiblePhotos } from '@/lib/photos';
 import { createId, mutateCollection, nowIso, readCollection } from '@/lib/storage';
@@ -12,6 +13,7 @@ export async function GET(request: NextRequest) {
   const query = (params.get('q') ?? '').trim().toLowerCase();
   const tag = params.get('tag');
   const favorite = params.get('favorite');
+  const region = params.get('region');
 
   const stored = await readCollection<Photo>('photos');
   const purged = purgeExpiredTrash(stored);
@@ -26,6 +28,7 @@ export async function GET(request: NextRequest) {
   if (tag) photos = photos.filter((photo) => photo.tags.includes(tag));
   if (favorite === 'true') photos = photos.filter((photo) => photo.favorite);
   if (favorite === 'false') photos = photos.filter((photo) => !photo.favorite);
+  if (region) photos = photos.filter((photo) => photo.region?.adcode === region);
   if (query) {
     photos = photos.filter((photo) =>
       [photo.title, photo.locationName, ...photo.tags].join(' ').toLowerCase().includes(query)
@@ -62,6 +65,10 @@ export async function POST(request: NextRequest) {
     createdAt: now,
     updatedAt: now
   };
+
+  if (photo.lat !== undefined && photo.lng !== undefined) {
+    photo.region = await lookupRegion(photo.lng, photo.lat);
+  }
 
   const saved = await mutateCollection<Photo, Photo>('photos', (current) => {
     current.push(photo);

@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { fail, ok, parseBody } from '@/lib/api';
 import { isAuthorizedWrite, unauthorized } from '@/lib/auth';
+import { lookupRegion } from '@/lib/geo/regions';
 import { photoPatchSchema } from '@/lib/schemas';
 import { mutateCollection, nowIso } from '@/lib/storage';
 import type { Photo } from '@/lib/types';
@@ -14,7 +15,7 @@ export async function PATCH(request: NextRequest, context: Context) {
   const parsed = await parseBody(request, photoPatchSchema);
   if (parsed.valid === false) return fail(parsed.error);
 
-  const updated = await mutateCollection<Photo, Photo | null>('photos', (current) => {
+  const updated = await mutateCollection<Photo, Photo | null>('photos', async (current) => {
     const photo = current.find((item) => item.id === id);
     if (!photo) return null;
 
@@ -34,6 +35,14 @@ export async function PATCH(request: NextRequest, context: Context) {
     if (patch.height !== undefined) photo.height = patch.height;
     if (patch.size !== undefined) photo.size = patch.size;
     if (patch.mimeType !== undefined) photo.mimeType = patch.mimeType;
+
+    if (patch.lat !== undefined || patch.lng !== undefined) {
+      if (photo.lat !== undefined && photo.lng !== undefined) {
+        photo.region = await lookupRegion(photo.lng, photo.lat);
+      } else {
+        delete photo.region;
+      }
+    }
 
     photo.updatedAt = nowIso();
     return photo;
