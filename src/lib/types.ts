@@ -34,6 +34,12 @@ export interface MapStory {
   updatedAt: string;
 }
 
+export interface PhotoRegion {
+  adcode: string;
+  province: string;
+  city: string;
+}
+
 export interface Photo {
   id: string;
   url: string;
@@ -49,6 +55,7 @@ export interface Photo {
   height?: number;
   size?: number;
   mimeType?: string;
+  region?: PhotoRegion | null;
   deletedAt?: string | null;
   createdAt: string;
   updatedAt: string;
@@ -211,3 +218,25 @@ export interface TripAttachment {
 }
 
 export type TripAttachmentSummary = Omit<TripAttachment, 'storageKey'>;
+
+export interface FaceInstance {
+  id: string;
+  photoId: string;
+  /** 相对原图的归一化坐标(0-1) */
+  box: { x: number; y: number; w: number; h: number };
+  /** 128 维人脸特征向量 */
+  descriptor: number[];
+  thumbUrl: string;
+  personId: string | null;
+  createdAt: string;
+}
+
+export interface Person {
+  id: string;
+  name: string | null;
+  faceIds: string[];
+  coverFaceId: string | null;
+  hidden: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

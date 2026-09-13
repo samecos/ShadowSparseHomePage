@@ -9,7 +9,9 @@ export type CollectionName =
   | 'collectibles'
   | 'photos'
   | 'trips'
-  | 'trip-attachments';
+  | 'trip-attachments'
+  | 'faces'
+  | 'people';
 
 const defaultDataDir = path.join(process.cwd(), 'data');
 const dataDir = process.env.HOMEPAGE_DATA_DIR
@@ -23,7 +25,9 @@ const fileNames: Record<CollectionName, string> = {
   collectibles: 'collectibles.json',
   photos: 'photos.json',
   trips: 'trips.json',
-  'trip-attachments': 'trip-attachments.json'
+  'trip-attachments': 'trip-attachments.json',
+  faces: 'faces.json',
+  people: 'people.json'
 };
 
 const queues = new Map<string, Promise<unknown>>();

@@ -145,6 +145,36 @@ export const photoBatchSchema = z.object({
   ids: z.array(z.string().trim().min(1)).min(1).max(500)
 });
 
+export const faceBoxSchema = z.object({
+  x: z.number().min(0).max(1),
+  y: z.number().min(0).max(1),
+  w: z.number().positive().max(1),
+  h: z.number().positive().max(1)
+});
+
+export const photoFacesSchema = z.object({
+  faces: z
+    .array(
+      z.object({
+        box: faceBoxSchema,
+        descriptor: z.array(z.number()).length(128),
+        thumbUrl: trimmed.min(1).max(300)
+      })
+    )
+    .max(32)
+});
+
+export const personPatchSchema = z.object({
+  name: trimmed.min(1).max(40).nullable().optional(),
+  coverFaceId: trimmed.min(1).nullable().optional(),
+  hidden: z.boolean().optional()
+});
+
+export const peopleMergeSchema = z.object({
+  sourceId: trimmed.min(1),
+  targetId: trimmed.min(1)
+});
+
 export const uploadResponseSchema = z.object({
   url: z.string().min(1)
 });
