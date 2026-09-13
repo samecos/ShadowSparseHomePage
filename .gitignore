@@ -13,3 +13,4 @@ public/uploads/*
 data/uploads.json
 data/trip-attachments.json
 data/private-uploads/*
+.worktrees

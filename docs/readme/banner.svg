@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-label="疏影渡 · 常记溪亭日暮，兴尽晚回舟，误入藕花深处">
+  <defs>
+    <clipPath id="frame">
+      <rect x="1" y="1" width="1198" height="378" rx="18" ry="18"/>
+    </clipPath>
+    <radialGradient id="glow-a" cx="0.08" cy="0" r="0.75">
+      <stop offset="0" stop-color="#658092" stop-opacity="0.13"/>
+      <stop offset="1" stop-color="#658092" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dusk" cx="0.97" cy="0.02" r="0.55">
+      <stop offset="0" stop-color="#e9cdaa" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#e9cdaa" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.098  0 0 0 0 0.114  0 0 0 0 0.137  0 0 0 0.4 0"/>
+    </filter>
+  </defs>
+  <style>
+    .serif { font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", "Noto Serif CJK SC", serif; }
+    .sans { font-family: -apple-system, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+    .eyebrow { fill: #666f79; font-size: 12px; letter-spacing: 5px; }
+    .title { fill: #191d22; font-size: 94px; letter-spacing: 12px; }
+    .subtitle { fill: #4a525c; font-size: 19px; letter-spacing: 2.5px; }
+    .chip-label { fill: #4a525c; font-size: 13px; letter-spacing: 1px; }
+    .chip { fill: rgba(255, 255, 255, 0.55); stroke: rgba(25, 29, 34, 0.14); }
+    .rule { stroke: rgba(102, 111, 121, 0.5); stroke-width: 1; }
+    .wave-a, .wave-b, .sun, .drift, .bob, .rush, .flag, .lotus, .flock, .bird { transform-box: fill-box; }
+    .sun { animation: breathe 10s ease-in-out infinite; }
+    .wave-a { animation: flow-a 9s ease-in-out infinite alternate; }
+    .wave-b { animation: flow-b 13s ease-in-out infinite alternate; }
+    .drift { animation: drift 44s linear infinite; }
+    .bob { transform-origin: 50% 100%; animation: bob 5.6s ease-in-out infinite; }
+    .rush { animation: rush 44s linear infinite; }
+    .flag { transform-origin: left center; animation: flutter 2.2s ease-in-out infinite; }
+    .lotus { transform-origin: 50% 100%; animation: sway 7s ease-in-out infinite alternate; }
+    .flock { animation: flock 44s linear infinite; }
+    .bird { transform-origin: center; animation: flap 0.8s ease-in-out infinite; }
+    .bird-b2 { animation-delay: 0.12s; }
+    .bird-b3 { animation-delay: 0.24s; }
+    .bird-b4 { animation-delay: 0.36s; }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 0.6; }
+    }
+    @keyframes flow-a {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50px); }
+    }
+    @keyframes flow-b {
+      from { transform: translateX(0); }
+      to { transform: translateX(50px); }
+    }
+    @keyframes drift {
+      from { transform: translateX(-140px); }
+      to { transform: translateX(1340px); }
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(2.2deg); }
+    }
+    @keyframes rush {
+      0%, 77% { transform: translateX(0) rotate(0deg); }
+      80% { transform: translateX(14px) rotate(2deg); }
+      83% { transform: translateX(0) rotate(0deg); }
+      86% { transform: translateX(16px) rotate(-2deg); }
+      89%, 100% { transform: translateX(0) rotate(0deg); }
+    }
+    @keyframes flutter {
+      0%, 100% { transform: scaleX(1) rotate(0deg); }
+      50% { transform: scaleX(0.78) rotate(-4deg); }
+    }
+    @keyframes sway {
+      from { transform: rotate(-1.6deg); }
+      to { transform: rotate(1.6deg); }
+    }
+    @keyframes flock {
+      0%, 78% { opacity: 0; transform: translate(0, 10px); }
+      81% { opacity: 0.9; transform: translate(-70px, -45px); }
+      90% { opacity: 0.85; transform: translate(-230px, -120px); }
+      96%, 100% { opacity: 0; transform: translate(-290px, -150px); }
+    }
+    @keyframes flap {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.45); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sun, .wave-a, .wave-b, .drift, .bob, .rush, .flag, .lotus, .flock, .bird { animation: none; }
+    }
+  </style>
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="380" fill="#f6f7f8"/>
+    <rect width="1200" height="380" fill="url(#glow-a)"/>
+    <rect width="1200" height="380" fill="url(#dusk)"/>
+    <rect width="1200" height="380" filter="url(#grain)" opacity="0.05"/>
+  </g>
+  <rect x="1" y="1" width="1198" height="378" rx="18" ry="18" fill="none" stroke="rgba(25, 29, 34, 0.16)"/>
+  <circle class="sun" cx="1078" cy="62" r="16" fill="#e9c99e"/>
+  <line class="rule" x1="448" y1="72" x2="478" y2="72"/>
+  <line class="rule" x1="722" y1="72" x2="752" y2="72"/>
+  <text class="sans eyebrow" x="600" y="76" text-anchor="middle">PERSONAL HOMEPAGE</text>
+  <text class="serif title" x="600" y="184" text-anchor="middle">疏影<tspan fill="#3f586a">渡</tspan></text>
+  <text class="sans subtitle" x="600" y="232" text-anchor="middle">清冷 · 克制 · 可被个人 Agent 打理的长期主页</text>
+  <g>
+    <rect class="chip" x="345" y="266" width="82" height="30" rx="15"/>
+    <text class="sans chip-label" x="386" y="286" text-anchor="middle">日常说说</text>
+    <rect class="chip" x="439" y="266" width="54" height="30" rx="15"/>
+    <text class="sans chip-label" x="466" y="286" text-anchor="middle">照片</text>
+    <rect class="chip" x="505" y="266" width="82" height="30" rx="15"/>
+    <text class="sans chip-label" x="546" y="286" text-anchor="middle">地图故事</text>
+    <rect class="chip" x="599" y="266" width="82" height="30" rx="15"/>
+    <text class="sans chip-label" x="640" y="286" text-anchor="middle">工作展示</text>
+    <rect class="chip" x="693" y="266" width="96" height="30" rx="15"/>
+    <text class="sans chip-label" x="741" y="286" text-anchor="middle">有趣的搜集</text>
+    <rect class="chip" x="801" y="266" width="54" height="30" rx="15"/>
+    <text class="sans chip-label" x="828" y="286" text-anchor="middle">旅行</text>
+  </g>
+  <g clip-path="url(#frame)">
+    <path class="wave-a" d="M -60 330 Q -35 326 -10 330 T 40 330 T 90 330 T 140 330 T 190 330 T 240 330 T 290 330 T 340 330 T 390 330 T 440 330 T 490 330 T 540 330 T 590 330 T 640 330 T 690 330 T 740 330 T 790 330 T 840 330 T 890 330 T 940 330 T 990 330 T 1040 330 T 1090 330 T 1140 330 T 1190 330 T 1240 330 T 1290 330" fill="none" stroke="rgba(101, 128, 146, 0.35)" stroke-width="1.2"/>
+    <path class="wave-b" d="M -60 348 Q -35 352 -10 348 T 40 348 T 90 348 T 140 348 T 190 348 T 240 348 T 290 348 T 340 348 T 390 348 T 440 348 T 490 348 T 540 348 T 590 348 T 640 348 T 690 348 T 740 348 T 790 348 T 840 348 T 890 348 T 940 348 T 990 348 T 1040 348 T 1090 348 T 1140 348 T 1190 348 T 1240 348 T 1290 348" fill="none" stroke="rgba(101, 128, 146, 0.18)" stroke-width="1"/>
+    <g transform="translate(0, 326)">
+      <g class="drift" transform="translate(430, 0)">
+        <g class="bob">
+          <g class="rush">
+            <path d="M -46 0 C -24 5 24 5 46 0 C 36 13 -36 13 -46 0 Z" fill="#fbfcfc" stroke="#4a525c" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M -18 -3 L 18 -3" stroke="#3f586a" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M -16 -3 C -10 -17 10 -17 16 -3" fill="none" stroke="#3f586a" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M 20 -3 L 20 -30" stroke="#4a525c" stroke-width="1.4" stroke-linecap="round"/>
+            <path class="flag" d="M 20 -30 L 37 -24.5 L 20 -19 Z" fill="#d9a8b4"/>
+            <path d="M -38 1 L -54 11" stroke="#4a525c" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g class="lotus">
+      <path d="M 1082 326 C 1082 316 1081 310 1080 304" fill="none" stroke="#7c8f83" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M 1064 328 C 1064 322 1064 316 1064 312" fill="none" stroke="#7c8f83" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M 1035 322 C 1045 314 1062 316 1066 322 C 1056 328 1042 328 1035 322 Z" fill="#8ba394" opacity="0.9"/>
+      <path d="M 1096 326 C 1104 320 1116 321 1120 326 C 1112 331 1102 331 1096 326 Z" fill="#8ba394" opacity="0.75"/>
+      <path d="M 1064 312 C 1061 306 1062 300 1064 298 C 1066 300 1067 306 1064 312 Z" fill="#dcaeae"/>
+      <path d="M 1080 304 C 1073 300 1069 293 1070 287 C 1076 290 1080 296 1080 304 Z" fill="#d9a8b4"/>
+      <path d="M 1080 304 C 1087 300 1091 293 1090 287 C 1084 290 1080 296 1080 304 Z" fill="#d9a8b4"/>
+      <path d="M 1080 304 C 1076 296 1077 288 1080 284 C 1083 288 1084 296 1080 304 Z" fill="#dcaeae"/>
+      <path d="M 1080 302 C 1078 297 1078 292 1080 289 C 1082 292 1082 297 1080 302 Z" fill="#efd7da"/>
+    </g>
+    <g transform="translate(1075, 296)">
+      <g class="flock">
+        <g transform="translate(0, 0)">
+          <path class="bird" d="M -6 0 Q -3 -4.5 0 -1 Q 3 -4.5 6 0" fill="none" stroke="#3f586a" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(16, 8) scale(0.9)">
+          <path class="bird bird-b2" d="M -6 0 Q -3 -4.5 0 -1 Q 3 -4.5 6 0" fill="none" stroke="#3f586a" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(30, 2) scale(0.8)">
+          <path class="bird bird-b3" d="M -6 0 Q -3 -4.5 0 -1 Q 3 -4.5 6 0" fill="none" stroke="#3f586a" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(44, 10) scale(0.7)">
+          <path class="bird bird-b4" d="M -6 0 Q -3 -4.5 0 -1 Q 3 -4.5 6 0" fill="none" stroke="#3f586a" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
