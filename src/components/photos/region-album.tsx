@@ -7,6 +7,19 @@ import styles from './region-album.module.css';
 
 type GeotaggedPhoto = Photo & { lat: number; lng: number };
 
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (character) => {
+    const map: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return map[character] ?? character;
+  });
+}
+
 interface CityGroup {
   key: string;
   label: string;
@@ -72,7 +85,7 @@ export function RegionAlbum({
       geotagged.forEach((photo) => {
         const icon = L.divIcon({
           className: styles.marker,
-          html: `<div class="${styles.markerInner}"><img src="${photo.url}" alt="" /></div>`,
+          html: `<div class="${styles.markerInner}"><img src="${escapeHtml(photo.url)}" alt="" /></div>`,
           iconSize: [44, 44],
           iconAnchor: [22, 22]
         });

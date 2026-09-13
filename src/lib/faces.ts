@@ -77,8 +77,12 @@ export async function detectFacesInPhoto(url: string): Promise<DetectedFace[]> {
   const faces: DetectedFace[] = [];
   for (const result of results) {
     const box = result.detection.box;
+    const x = Math.min(1, Math.max(0, box.x / width));
+    const y = Math.min(1, Math.max(0, box.y / height));
+    const w = Math.min(1 - x, Math.max(0.001, box.width / width));
+    const h = Math.min(1 - y, Math.max(0.001, box.height / height));
     faces.push({
-      box: { x: box.x / width, y: box.y / height, w: box.width / width, h: box.height / height },
+      box: { x, y, w, h },
       descriptor: Array.from(result.descriptor),
       thumb: await cropFace(image, box)
     });
