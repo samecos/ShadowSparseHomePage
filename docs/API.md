@@ -219,16 +219,31 @@
   height?: number
   size?: number
   mimeType?: string
+  region?: PhotoRegion | null // 服务端反查的行政区划，见下
   deletedAt?: string | null // 回收站标记
   createdAt: string
   updatedAt: string
 }
 ```
 
+### PhotoRegion
+
+服务端根据照片坐标在行政区划表（`data/admin-regions.json`）内做点在多边形反查，
+精确到市一级；坐标缺失或境外照片为 `null`，归入「未定位」。
+
+```ts
+{
+  adcode: string    // 市级行政区划代码（GB/T 2260）
+  province: string
+  city: string
+}
+```
+
 ### GET /api/photos
 
-查询参数：`q`、`tag`、`favorite`。访客只返回公开且未删除的照片；携带管理员会话或
-Agent Token 时返回全部内容（含回收站）。
+查询参数：`q`、`tag`、`favorite`、`region`。访客只返回公开且未删除的照片；携带管理员会话或
+Agent Token 时返回全部内容（含回收站）。`region` 按市级 adcode 精确筛选（如
+`region=330100`），遵守同样的可见性规则。
 
 ### POST /api/photos
 
@@ -245,6 +260,10 @@ Agent Token 时返回全部内容（含回收站）。
 调用则彻底删除记录（图片文件仍保留在 `public/uploads`，不会自动清理）。
 回收站中的照片超过 30 天后会在任何一次读取时自动清除。
 
+彻底清除（单张二次删除与批量 `purge`）会级联删除该照片的人脸，并清理因此空置的
+人物聚类；回收站自动过期清理的照片不做级联——这是已知取舍：残留人脸无展示入口，
+数据无害。
+
 ### POST /api/photos/batch
 
 批量操作，需要写权限：
@@ -254,6 +273,72 @@ Agent Token 时返回全部内容（含回收站）。
 ```
 
 `action` 取值：`favorite`、`unfavorite`、`trash`（进回收站）、`restore`、`purge`（彻底删除）。
+
+### POST /api/photos/reclassify
+
+对全部照片重算 `region`，需要写权限。幂等，可随时重跑：有坐标的照片按当前行政区划表
+重新反查，无坐标或境外的照片清除 `region`。返回 `{ "total": <照片总数>, "tagged": <成功定位数> }`。
+
+### POST /api/photos/:id/faces
+
+提交某张照片的人脸扫描结果，需要写权限。整体替换该照片现有人脸，并对新结果触发增量
+聚类（与现有人物聚类比对，归入或新建 person）。请求体：
+
+```json
+{
+  "faces": [
+    {
+      "box": { "x": 0.32, "y": 0.1, "w": 0.21, "h": 0.28 },
+      "descriptor": [0.12, -0.03],
+      "thumbUrl": "/uploads/face-thumb.jpg"
+    }
+  ]
+}
+```
+
+`box` 为相对原图的归一化坐标（0–1）；`descriptor` 固定 128 维；每张照片最多 32 张；
+`thumbUrl` 是浏览器裁剪头像后经 `POST /api/upload` 上传的地址。人脸数据（含 descriptor）
+不公开，仅管理员可读写。返回 201：`{ "faces": <人脸数>, "people": <涉及的人物数> }`。
+
+### GET /api/people
+
+人物聚类列表，需要写权限（人物数据不公开，访客 401）。按人脸数降序，不含 descriptor：
+
+```json
+{
+  "items": [
+    {
+      "id": "person_xxx",
+      "name": "阿澄",
+      "hidden": false,
+      "count": 12,
+      "coverThumbUrl": "/uploads/face-thumb.jpg",
+      "faces": [
+        { "id": "face_xxx", "photoId": "photo_xxx", "thumbUrl": "/uploads/face-thumb.jpg", "box": { "x": 0.1, "y": 0.1, "w": 0.2, "h": 0.2 } }
+      ]
+    }
+  ]
+}
+```
+
+### PATCH /api/people/:id
+
+更新人物聚类，需要写权限。字段均可选：`name`（传 `null` 清除命名）、`coverFaceId`
+（必须属于该人物）、`hidden`（隐藏误检聚类）。
+
+### POST /api/people/merge
+
+合并两个人物聚类，需要写权限。请求体：
+
+```json
+{ "sourceId": "person_aaa", "targetId": "person_bbb" }
+```
+
+source 的全部人脸并入 target，source 聚类删除，返回合并后的人物。
+
+### DELETE /api/faces/:id
+
+删除一张误检人脸，需要写权限；其所属聚类若因此空置会被一并清理。
 
 ## 上传 API
 

@@ -1,7 +1,7 @@
 # 相册自动分类设计(人物 / 时间 / 地区)
 
 日期:2026-09-13
-状态:待审阅
+状态:已实现(2026-09-13,人物/地区/文档同步完成)
 
 ## 1. 背景与目标
 
@@ -97,7 +97,7 @@ region?: { adcode: string; province: string; city: string } | null
 | `POST /api/photos/reclassify` | 仅管理员 | 对全部照片重算 `region`(幂等回填) |
 | `POST/PATCH /api/photos*` | 现有权限 | 内部自动补算 `region`,对外契约不变 |
 
-删除照片(彻底清除)时级联删除其 faces,并从对应 person 的 faceIds 中移除。
+删除照片(彻底清除)时级联删除其 faces,并从对应 person 的 faceIds 中移除。回收站自动过期清理的照片不做级联(已知取舍:残留人脸无展示入口,数据无害)。
 
 ## 5. 前端
 
@@ -134,7 +134,7 @@ photos-experience.tsx
 - `npm run build` 通过(TypeScript 严格模式)。
 - 手动验证清单:
   1. 上传带 GPS 的 JPEG → photos.json 自动写入正确 `region`(至少市级);
-  2. 运行 backfill 脚本 → 存量 12 张占位照片全部获得 region;
+  2. 调用 `POST /api/photos/reclassify` 回填 → 存量照片全部获得 region;
   3. 地区视图:地图标记 + 城市分组 + 灯箱可用;
   4. 人物扫描(含人脸的照片)→ 聚类生成 → 命名/合并/隐藏/删脸;
   5. 游客视角:人物 tab 不可见,`/api/people` 401;

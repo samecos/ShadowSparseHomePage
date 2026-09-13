@@ -7,7 +7,7 @@ This is a Next.js App Router site written in TypeScript.
 - `src/app/` contains routes, route-specific components, CSS Modules, and API handlers under `src/app/api/`.
 - `src/components/` contains reusable UI, map, authentication, and icon components.
 - `src/lib/` contains shared types, JSON-file storage, validation schemas, formatting, and authentication helpers.
-- `data/` stores the site’s local JSON collections: posts, map stories, works, and collectibles.
+- `data/` stores the site’s local JSON collections: posts, map stories, works, collectibles, photos, face instances (`faces.json`), person clusters (`people.json`), and generated administrative region boundaries (`admin-regions.json`, produced by a script).
 - `public/` contains static images and uploaded assets; `docs/` documents the API, MCP integration, and visual system.
 - `agent/` and `mcp/` define the HERMES agent contract and MCP server.
 
@@ -20,6 +20,8 @@ Run commands from the repository root:
 - `npm run start` serves the previously built production application.
 - `npm run mcp` starts the HERMES MCP server using `.env.local`.
 - `npm run generate:media` regenerates placeholder media in `public/`.
+- `npm run build:regions` rebuilds `data/admin-regions.json` from the DataV GeoAtlas boundary source.
+- `npm run setup:faces` copies the bundled face-api models into `public/models/face-api/`.
 
 There is currently no dedicated test or lint script. Run `npm run build` before submitting changes and manually exercise affected routes/API endpoints.
 
