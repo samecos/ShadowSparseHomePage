@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { fail, ok, parseBody } from '@/lib/api';
 import { isAuthorizedWrite, unauthorized } from '@/lib/auth';
+import { removeFacesForPhotos } from '@/lib/people';
 import { photoBatchSchema } from '@/lib/schemas';
 import { purgeExpiredTrash } from '@/lib/photos';
 import { mutateCollection, nowIso } from '@/lib/storage';
@@ -14,6 +15,7 @@ export async function POST(request: NextRequest) {
 
   const { action, ids } = parsed.data;
   const idSet = new Set(ids);
+  const purgedIds: string[] = [];
 
   const result = await mutateCollection<Photo, number>('photos', (current) => {
     const purged = purgeExpiredTrash(current);
@@ -60,6 +62,8 @@ export async function POST(request: NextRequest) {
     });
 
     if (action === 'purge') {
+      const removed = current.filter((photo) => photo.deletedAt !== null && idSet.has(photo.id));
+      purgedIds.push(...removed.map((photo) => photo.id));
       const kept = current.filter((photo) => (photo.deletedAt !== null && idSet.has(photo.id)) === false);
       affected = current.length - kept.length;
       current.splice(0, current.length, ...kept);
@@ -67,6 +71,10 @@ export async function POST(request: NextRequest) {
 
     return affected;
   });
+
+  if (action === 'purge' && purgedIds.length > 0) {
+    await removeFacesForPhotos(purgedIds);
+  }
 
   return ok({ action, affected: result });
 }

@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { fail, ok, parseBody } from '@/lib/api';
 import { isAuthorizedWrite, unauthorized } from '@/lib/auth';
 import { lookupRegion } from '@/lib/geo/regions';
+import { removeFacesForPhotos } from '@/lib/people';
 import { photoPatchSchema } from '@/lib/schemas';
 import { mutateCollection, nowIso } from '@/lib/storage';
 import type { Photo } from '@/lib/types';
@@ -72,5 +73,6 @@ export async function DELETE(request: NextRequest, context: Context) {
   });
 
   if (result === null) return fail('没有找到这张照片。', 404);
+  if (result === 'purged') await removeFacesForPhotos([id]);
   return ok({ id, result });
 }
