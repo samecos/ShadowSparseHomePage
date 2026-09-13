@@ -30,7 +30,7 @@
 - 数据源:**阿里云 DataV GeoAtlas**(`https://geo.datav.aliyun.com/areas_v3/bound/{adcode}_full.json`,民政部国标行政区划代码),城市级(地级行政区,约 340 个)边界。
 - 构建脚本 `scripts/build-admin-regions.mjs`:拉取全国各省级 `_full.json` → 提取市级要素 → Douglas-Peucker 抽稀(容差 ~0.005°,约 500m 精度)+ 坐标量化到 4 位小数 → 输出 `data/admin-regions.json`(含 adcode、省名、市名、bbox、抽稀后的 MultiPolygon)。体积目标 < 5MB,仅服务端加载。
 - 反查:`src/lib/geo/regions.ts` 做 bbox 预筛 + 射线法 PIP,输入 (lng, lat) 输出 `{adcode, province, city}`。
-- **写入时机**:服务端在 `POST /api/photos` 创建、`PATCH /api/photos/:id` 修改 lat/lng 时自动计算并写入 `photo.region`;存量照片用 `scripts/backfill-regions.mjs` 回填。
+- **写入时机**:服务端在 `POST /api/photos` 创建、`PATCH /api/photos/:id` 修改 lat/lng 时自动计算并写入 `photo.region`;存量照片由管理端 `POST /api/photos/reclassify` 回填(可随时重跑,幂等)。
 - **降级**:坐标落在中国市界外时,依次尝试(1)省级 PIP,(2)MapTiler 逆地理编码(项目已有 `MAPTILER_KEY` 与服务端代理模式可复用),(3)标记为 `region = null`,归入"未定位"分组。绝不阻塞照片写入。
 
 ### 2.3 时间分类:不动
@@ -94,6 +94,7 @@ region?: { adcode: string; province: string; city: string } | null
 | `POST /api/photos/:id/faces` | 仅管理员 | 提交某张照片的扫描结果(整体替换该照片的 faces,触发增量聚类) |
 | `DELETE /api/faces/:id` | 仅管理员 | 删除误检人脸 |
 | `GET /api/photos?region={adcode}` | 公开(按现有可见性规则) | 按行政区划筛选照片 |
+| `POST /api/photos/reclassify` | 仅管理员 | 对全部照片重算 `region`(幂等回填) |
 | `POST/PATCH /api/photos*` | 现有权限 | 内部自动补算 `region`,对外契约不变 |
 
 删除照片(彻底清除)时级联删除其 faces,并从对应 person 的 faceIds 中移除。
@@ -141,9 +142,9 @@ photos-experience.tsx
 
 ## 8. 实施步骤(概要,详见实施计划)
 
-1. 行政区划:build-admin-regions 脚本 + regions.ts 查找库 + 单元自测脚本
+1. 行政区划:build-admin-regions 脚本 + regions.ts 查找库 + 自测脚本
 2. 数据层:types/schemas/storage 扩展 + Photo.region
-3. 地区分类:POST/PATCH 自动打标 + backfill 脚本 + `?region=` 筛选
+3. 地区分类:POST/PATCH 自动打标 + `POST /api/photos/reclassify` 回填 + `?region=` 筛选
 4. 人物后端:faces/people 存储 + 聚类 + API + 级联删除
 5. 人物前端:模型拷贝脚本 + 扫描器 + PeopleAlbum
 6. 地区前端:RegionAlbum + 视图切换器
