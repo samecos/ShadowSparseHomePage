@@ -20,7 +20,10 @@ export function loadFaceApi(): Promise<FaceApi> {
       faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL)
     ]);
     return faceapi;
-  })();
+  })().catch((cause) => {
+    apiPromise = null;
+    throw cause;
+  });
   return apiPromise;
 }
 
@@ -46,7 +49,7 @@ function cropFace(
   const size = Math.max(box.width, box.height) * 1.7;
   const sx = Math.max(0, box.x + box.width / 2 - size / 2);
   const sy = Math.max(0, box.y + box.height / 2 - size / 2);
-  const side = Math.min(size, image.naturalWidth - sx, image.naturalHeight - sy);
+  const side = Math.max(1, Math.min(size, image.naturalWidth - sx, image.naturalHeight - sy));
   const canvas = document.createElement('canvas');
   canvas.width = THUMB_SIZE;
   canvas.height = THUMB_SIZE;
@@ -87,7 +90,10 @@ async function uploadThumb(blob: Blob) {
   const body = new FormData();
   body.append('file', new File([blob], `face-${Date.now()}.jpg`, { type: 'image/jpeg' }));
   const response = await fetch('/api/upload', { method: 'POST', body });
-  const payload = (await response.json()) as { data?: { url?: string }; error?: string };
+  const payload = (await response.json().catch(() => ({}))) as {
+    data?: { url?: string };
+    error?: string;
+  };
   if (response.ok === false || !payload.data?.url) {
     throw new Error(payload.error ?? '头像上传失败。');
   }
@@ -105,7 +111,11 @@ function readScanMarkers(): Record<string, string> {
 function markScanned(photoId: string, updatedAt: string) {
   const markers = readScanMarkers();
   markers[photoId] = updatedAt;
-  window.localStorage.setItem(SCAN_STORAGE_KEY, JSON.stringify(markers));
+  try {
+    window.localStorage.setItem(SCAN_STORAGE_KEY, JSON.stringify(markers));
+  } catch {
+    // localStorage 不可用时跳过扫描标记
+  }
 }
 
 /** 还没扫描过(或扫描后照片有更新)的照片。 */
