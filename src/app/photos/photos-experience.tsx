@@ -146,7 +146,7 @@ export function PhotosExperience({
     };
     grid.addEventListener('wheel', handler, { passive: false });
     return () => grid.removeEventListener('wheel', handler);
-  }, [lightboxId]);
+  }, [dimension, lightboxId]);
 
   const viewList = useMemo(() => {
     let items: Photo[];
@@ -533,6 +533,7 @@ export function PhotosExperience({
                   className={`${styles.tab} ${dimension === item.id ? styles.tabActive : ''}`}
                   onClick={() => {
                     setDimension(item.id);
+                    setView('library');
                     exitSelectMode();
                   }}
                 >
