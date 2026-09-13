@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "mcp": "node --env-file-if-exists=.env.local mcp/hermes-server.mjs",
-    "generate:media": "node scripts/generate-placeholders.mjs"
+    "generate:media": "node scripts/generate-placeholders.mjs",
+    "build:regions": "node scripts/build-admin-regions.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
