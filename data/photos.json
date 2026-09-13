@@ -19,7 +19,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-09-06T06:10:00.000Z",
-    "updatedAt": "2026-09-06T06:10:00.000Z"
+    "updatedAt": "2026-09-06T06:10:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_7c3e12b4d0e5",
@@ -40,7 +45,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-09-06T06:20:00.000Z",
-    "updatedAt": "2026-09-06T06:20:00.000Z"
+    "updatedAt": "2026-09-06T06:20:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_8d4f23c5e1f6",
@@ -62,7 +72,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-09-06T06:40:00.000Z",
-    "updatedAt": "2026-09-11T06:21:41.277Z"
+    "updatedAt": "2026-09-11T06:21:41.277Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_9e5034d6f2a7",
@@ -81,7 +96,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-09-06T07:10:00.000Z",
-    "updatedAt": "2026-09-11T06:21:41.277Z"
+    "updatedAt": "2026-09-11T06:21:41.277Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_a16145e7a3b8",
@@ -103,7 +123,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-08-29T09:00:00.000Z",
-    "updatedAt": "2026-08-29T09:00:00.000Z"
+    "updatedAt": "2026-08-29T09:00:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_b27256f8b4c9",
@@ -124,7 +149,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-08-29T09:20:00.000Z",
-    "updatedAt": "2026-08-29T09:20:00.000Z"
+    "updatedAt": "2026-08-29T09:20:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_c38367a9c5d0",
@@ -143,7 +173,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-08-29T10:30:00.000Z",
-    "updatedAt": "2026-08-29T10:30:00.000Z"
+    "updatedAt": "2026-08-29T10:30:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_d49478b0d6e1",
@@ -164,7 +199,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-07-18T14:00:00.000Z",
-    "updatedAt": "2026-07-18T14:00:00.000Z"
+    "updatedAt": "2026-07-18T14:00:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_e5a589c1e7f2",
@@ -183,7 +223,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-07-18T15:00:00.000Z",
-    "updatedAt": "2026-07-18T15:00:00.000Z"
+    "updatedAt": "2026-07-18T15:00:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_f6b690d2f8a3",
@@ -204,7 +249,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-07-18T16:20:00.000Z",
-    "updatedAt": "2026-07-18T16:20:00.000Z"
+    "updatedAt": "2026-07-18T16:20:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_07c7a1e3a9b4",
@@ -225,7 +275,12 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-06-14T12:00:00.000Z",
-    "updatedAt": "2026-06-14T12:00:00.000Z"
+    "updatedAt": "2026-06-14T12:00:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   },
   {
     "id": "photo_18d8b2f4b0c5",
@@ -244,6 +299,11 @@
     "mimeType": "image/png",
     "deletedAt": null,
     "createdAt": "2026-06-14T12:30:00.000Z",
-    "updatedAt": "2026-06-14T12:30:00.000Z"
+    "updatedAt": "2026-06-14T12:30:00.000Z",
+    "region": {
+      "adcode": "330100",
+      "province": "浙江省",
+      "city": "杭州市"
+    }
   }
 ]
