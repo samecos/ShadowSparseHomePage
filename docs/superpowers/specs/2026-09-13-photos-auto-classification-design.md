@@ -31,7 +31,7 @@
 - 构建脚本 `scripts/build-admin-regions.mjs`:拉取全国各省级 `_full.json` → 提取市级要素 → Douglas-Peucker 抽稀(容差 ~0.005°,约 500m 精度)+ 坐标量化到 4 位小数 → 输出 `data/admin-regions.json`(含 adcode、省名、市名、bbox、抽稀后的 MultiPolygon)。体积目标 < 5MB,仅服务端加载。
 - 反查:`src/lib/geo/regions.ts` 做 bbox 预筛 + 射线法 PIP,输入 (lng, lat) 输出 `{adcode, province, city}`。
 - **写入时机**:服务端在 `POST /api/photos` 创建、`PATCH /api/photos/:id` 修改 lat/lng 时自动计算并写入 `photo.region`;存量照片由管理端 `POST /api/photos/reclassify` 回填(可随时重跑,幂等)。
-- **降级**:坐标落在中国市界外时,依次尝试(1)省级 PIP,(2)MapTiler 逆地理编码(项目已有 `MAPTILER_KEY` 与服务端代理模式可复用),(3)标记为 `region = null`,归入"未定位"分组。绝不阻塞照片写入。
+- **降级**:构建产物中市级条目在前、省级条目在后,市级 PIP 未命中时自动落到省级;坐标不在任何面内(如海外)→ `region = null`,归入"未定位"分组(照片的 `locationName` 仍可手动编辑)。绝不阻塞照片写入。
 
 ### 2.3 时间分类:不动
 
