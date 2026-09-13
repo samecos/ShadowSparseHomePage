@@ -174,6 +174,96 @@ const toolDefinitions = [
     }
   },
   {
+    name: 'list_trips',
+    description: '读取旅行列表。带有 Agent Token 时可以看到准备中和进行中的私密旅行。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', enum: ['planning', 'active', 'completed', 'archived'] },
+        query: { type: 'string' }
+      },
+      additionalProperties: false
+    }
+  },
+  {
+    name: 'get_trip',
+    description: '读取一条旅行的完整计划、清单、预订记录和沿途记录。',
+    inputSchema: {
+      type: 'object',
+      properties: { id: { type: 'string' } },
+      required: ['id'],
+      additionalProperties: false
+    }
+  },
+  {
+    name: 'create_trip',
+    description: '创建一条默认私密的旅行计划。适合先建立日期、目的地和行程骨架。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        summary: { type: 'string' },
+        destinations: { type: 'array', items: { type: 'string' } },
+        startDate: { type: 'string', description: 'YYYY-MM-DD' },
+        endDate: { type: 'string', description: 'YYYY-MM-DD' },
+        tags: { type: 'array', items: { type: 'string' } },
+        days: { type: 'array', items: { type: 'object' } },
+        reservations: { type: 'array', items: { type: 'object' } }
+      },
+      required: ['title', 'startDate', 'endDate'],
+      additionalProperties: false
+    }
+  },
+  {
+    name: 'update_trip',
+    description: '更新旅行的状态、行程、清单、预订记录、沿途记录或回顾草稿。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string' },
+        title: { type: 'string' },
+        summary: { type: 'string' },
+        status: { type: 'string', enum: ['planning', 'active', 'completed', 'archived'] },
+        visibility: { type: 'string', enum: ['private', 'public'] },
+        destinations: { type: 'array', items: { type: 'string' } },
+        startDate: { type: 'string' },
+        endDate: { type: 'string' },
+        tags: { type: 'array', items: { type: 'string' } },
+        days: { type: 'array', items: { type: 'object' } },
+        reservations: { type: 'array', items: { type: 'object' } },
+        entries: { type: 'array', items: { type: 'object' } },
+        recap: { type: 'object' }
+      },
+      required: ['id'],
+      additionalProperties: false
+    }
+  },
+  {
+    name: 'delete_trip',
+    description: '删除一条旅行及其私有附件。只有在用户明确确认目标后调用。',
+    inputSchema: {
+      type: 'object',
+      properties: { id: { type: 'string' } },
+      required: ['id'],
+      additionalProperties: false
+    }
+  },
+  {
+    name: 'upload_trip_attachment',
+    description: '上传 MCP 所在机器上的旅行图片或私有预订文件。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        tripId: { type: 'string' },
+        filePath: { type: 'string' },
+        kind: { type: 'string', enum: ['media', 'reservation'], description: '默认 media' },
+        reservationId: { type: 'string', description: 'kind=reservation 时必填' }
+      },
+      required: ['tripId', 'filePath'],
+      additionalProperties: false
+    }
+  },
+  {
     name: 'daily_digest',
     description: '读取收件箱统计和最近待整理内容，生成适合继续策展的上下文。',
     inputSchema: {
@@ -232,6 +322,27 @@ async function uploadLocalFile(filePath) {
   });
   const payload = await response.json();
   if (response.ok === false) throw new Error(payload.error ?? '上传失败。');
+  return payload.data;
+}
+
+async function uploadTripFile(tripId, filePath, kind = 'media', reservationId) {
+  const absolute = path.resolve(filePath);
+  const extension = path.extname(absolute).toLowerCase();
+  const mime = mimeTypes[extension];
+  if (!mime) throw new Error('暂不支持这种文件格式。');
+
+  const bytes = await readFile(absolute);
+  const form = new FormData();
+  form.append('file', new Blob([bytes], { type: mime }), path.basename(absolute));
+  form.append('kind', kind);
+  if (reservationId) form.append('reservationId', reservationId);
+  const response = await fetch(`${BASE_URL}/api/trips/${encodeURIComponent(tripId)}/attachments`, {
+    method: 'POST',
+    headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {},
+    body: form
+  });
+  const payload = await response.json();
+  if (response.ok === false) throw new Error(payload.error ?? '旅行文件上传失败。');
   return payload.data;
 }
 
@@ -298,6 +409,27 @@ async function handleTool(name, args) {
       });
     case 'upload_media':
       return uploadLocalFile(args.filePath);
+    case 'list_trips': {
+      const params = new URLSearchParams();
+      if (args.status) params.set('status', args.status);
+      if (args.query) params.set('q', args.query);
+      return apiRequest(`/api/trips?${params.toString()}`);
+    }
+    case 'get_trip':
+      return apiRequest(`/api/trips/${args.id}`);
+    case 'create_trip':
+      return apiRequest('/api/trips', {
+        method: 'POST',
+        body: JSON.stringify({ ...args, status: 'planning', visibility: 'private' })
+      });
+    case 'update_trip': {
+      const { id, ...patch } = args;
+      return apiRequest(`/api/trips/${id}`, { method: 'PATCH', body: JSON.stringify(patch) });
+    }
+    case 'delete_trip':
+      return apiRequest(`/api/trips/${args.id}`, { method: 'DELETE' });
+    case 'upload_trip_attachment':
+      return uploadTripFile(args.tripId, args.filePath, args.kind ?? 'media', args.reservationId);
     case 'daily_digest': {
       const digest = await apiRequest('/api/agent/digest');
       return {
@@ -312,7 +444,7 @@ async function handleTool(name, args) {
 }
 
 const server = new Server(
-  { name: 'homepage-hermes', version: '1.0.0' },
+  { name: 'homepage-hermes', version: '1.1.0' },
   {
     capabilities: {
       tools: {},
@@ -358,7 +490,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
     const text = [
       '# 个人主页',
       '',
-      '四个长期模块：日常说说、地图故事、工作展示、有趣的搜集。',
+      '六个长期模块：日常说说、照片、地图故事、工作展示、有趣的搜集、旅行。',
       '',
       '语气：清冷、克制、真诚，不使用营销感叹句。',
       '边界：私人照片和未公开内容不主动外传；写操作前确认目标 id。',

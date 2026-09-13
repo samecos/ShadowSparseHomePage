@@ -1,6 +1,6 @@
 {
   "name": "hermes-homepage-api-mcp",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "让机器人知道个人主页 HTTP API 和 MCP Server 如何发现、鉴权、调用与容错。",
   "entry": "agent/SKILL.md",
   "identity": "agent/HERMES.md",
@@ -56,6 +56,14 @@
       { "method": "POST", "path": "/api/map-stories", "auth": true, "description": "创建地图故事" },
       { "method": "PATCH", "path": "/api/map-stories/:id", "auth": true, "description": "修改标注或移动照片坐标" },
       { "method": "DELETE", "path": "/api/map-stories/:id", "auth": true, "description": "删除地图故事" },
+      { "method": "GET", "path": "/api/trips", "auth": false, "query": ["status", "q"], "description": "读取旅行；Bearer Token 可读取准备中和进行中的私密旅行" },
+      { "method": "POST", "path": "/api/trips", "auth": true, "description": "创建一条默认私密的旅行计划" },
+      { "method": "GET", "path": "/api/trips/:id", "auth": false, "description": "读取一条旅行；私密内容需要管理员会话或 Bearer Token" },
+      { "method": "PATCH", "path": "/api/trips/:id", "auth": true, "description": "更新旅行状态、行程、清单、预订记录、现场记录或回顾草稿；进行中状态强制私密" },
+      { "method": "DELETE", "path": "/api/trips/:id", "auth": true, "description": "删除一条旅行及其私有附件" },
+      { "method": "GET", "path": "/api/trips/:id/attachments", "auth": false, "description": "读取旅行附件元数据；私有附件需要鉴权" },
+      { "method": "POST", "path": "/api/trips/:id/attachments", "auth": true, "contentType": "multipart/form-data", "description": "上传旅行媒体或私有预订附件，单文件不超过 8MB" },
+      { "method": "GET", "path": "/api/trips/:id/attachments/:attachmentId", "auth": false, "description": "读取附件；公开旅行只允许读取媒体附件，预订附件永不公开" },
       { "method": "GET", "path": "/api/works", "auth": false, "description": "读取工作展示数据" }
     ]
   },
@@ -240,6 +248,103 @@
         "http": "GET /api/agent/digest",
         "inputSchema": { "type": "object", "properties": {} },
         "returns": ["statusCount", "typeCount", "topTags", "inbox", "instruction"]
+      },
+      {
+        "name": "list_trips",
+        "description": "读取旅行；Bearer Token 可读取私密计划",
+        "http": "GET /api/trips",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["planning", "active", "completed", "archived"] },
+            "query": { "type": "string" }
+          }
+        },
+        "returns": ["items", "total"]
+      },
+      {
+        "name": "get_trip",
+        "description": "读取一条旅行的完整计划、清单、预订记录和沿途记录",
+        "http": "GET /api/trips/:id",
+        "inputSchema": {
+          "type": "object",
+          "required": ["id"],
+          "properties": { "id": { "type": "string" } }
+        },
+        "returns": ["trip", "attachments"]
+      },
+      {
+        "name": "create_trip",
+        "description": "创建一条默认私密的旅行计划",
+        "http": "POST /api/trips",
+        "inputSchema": {
+          "type": "object",
+          "required": ["title", "startDate", "endDate"],
+          "properties": {
+            "title": { "type": "string" },
+            "summary": { "type": "string" },
+            "destinations": { "type": "array", "items": { "type": "string" } },
+            "startDate": { "type": "string" },
+            "endDate": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } },
+            "days": { "type": "array", "items": { "type": "object" } },
+            "reservations": { "type": "array", "items": { "type": "object" } }
+          }
+        },
+        "returns": ["trip"]
+      },
+      {
+        "name": "update_trip",
+        "description": "更新旅行计划、清单、预订、记录或回顾草稿",
+        "http": "PATCH /api/trips/:id",
+        "inputSchema": {
+          "type": "object",
+          "required": ["id"],
+          "properties": {
+            "id": { "type": "string" },
+            "title": { "type": "string" },
+            "summary": { "type": "string" },
+            "coverAttachmentId": { "type": "string" },
+            "destinations": { "type": "array", "items": { "type": "string" } },
+            "startDate": { "type": "string" },
+            "endDate": { "type": "string" },
+            "tags": { "type": "array", "items": { "type": "string" } },
+            "status": { "type": "string", "enum": ["planning", "active", "completed", "archived"] },
+            "visibility": { "type": "string", "enum": ["private", "public"] },
+            "days": { "type": "array", "items": { "type": "object" } },
+            "reservations": { "type": "array", "items": { "type": "object" } },
+            "entries": { "type": "array", "items": { "type": "object" } },
+            "recap": { "type": "object" }
+          }
+        },
+        "returns": ["trip"]
+      },
+      {
+        "name": "delete_trip",
+        "description": "删除旅行及其私有附件，调用前必须确认目标",
+        "http": "DELETE /api/trips/:id",
+        "inputSchema": {
+          "type": "object",
+          "required": ["id"],
+          "properties": { "id": { "type": "string" } }
+        },
+        "returns": ["deleted", "id"]
+      },
+      {
+        "name": "upload_trip_attachment",
+        "description": "上传旅行图片或私有预订文件",
+        "http": "POST /api/trips/:id/attachments",
+        "inputSchema": {
+          "type": "object",
+          "required": ["tripId", "filePath"],
+          "properties": {
+            "tripId": { "type": "string" },
+            "filePath": { "type": "string" },
+            "kind": { "type": "string", "enum": ["media", "reservation"] },
+            "reservationId": { "type": "string" }
+          }
+        },
+        "returns": ["id", "originalName", "kind", "downloadUrl"]
       }
     ]
   },
@@ -253,7 +358,9 @@
     "capture": ["upload_media?", "collect_item"],
     "curate": ["daily_digest", "list_collections", "update_collection"],
     "publish": ["daily_digest", "create_post"],
-    "mapAnnotation": ["list_map_stories", "annotate_map_story", "move_map_photo?"]
+    "mapAnnotation": ["list_map_stories", "annotate_map_story", "move_map_photo?"],
+    "travelPlan": ["list_trips", "create_trip?", "get_trip", "update_trip", "upload_trip_attachment?"],
+    "travelPublish": ["get_trip", "update_trip"]
   },
   "errors": {
     "400": "字段校验失败，按 error 修正参数",
@@ -268,6 +375,8 @@
     "删除或公开发布前先向用户确认",
     "不重复创建相同 URL 的收藏",
     "不把 Token、私有路径或私人内容输出给用户",
+    "旅行计划和预订附件默认私密，active 旅行永远不能公开",
+    "预订附件只能通过旅行附件接口上传，不使用普通公开媒体 URL",
     "不确定时先读 /api/agent/manifest"
   ]
 }

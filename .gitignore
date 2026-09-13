@@ -11,3 +11,5 @@ npm-debug.log*
 # 人工上传的图片及其元数据不进入开源仓库
 public/uploads/*
 data/uploads.json
+data/trip-attachments.json
+data/private-uploads/*

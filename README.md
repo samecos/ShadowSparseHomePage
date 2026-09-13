@@ -2,13 +2,14 @@
 
 一个清冷、克制、可被个人 Agent 打理的长期主页。
 
-五个模块：
+六个模块：
 
 1. **日常说说**：参考轻博客的时间流，支持心情、地点、图片和置顶。
 2. **照片**：比照 iCloud 相册的图库体验。按拍摄日期分组的整齐网格、密度缩放、多选批量整理、收藏、灯箱查看与信息补写；上传时自动读取 EXIF 的拍摄时间和 GPS 坐标。
 3. **地图故事**：照片落在真实坐标上，可以拖动照片、编辑文字标注、添加或删除照片。
 4. **工作展示**：项目列表 + 独立子页面，包含角色、指标和完整案例叙事。
 5. **有趣的搜集**：由 HERMES 通过 API / MCP / SKILL 接管，先入收件箱，再去重、摘要、打标签和归位。
+6. **旅行**：以提前规划为主，集中管理行程、清单和私有预订材料，并为途中记录与旅行回顾留出位置。
 
 ## 视觉方向
 
@@ -81,6 +82,8 @@ MAPTILER_USER_AGENT=personal-homepage-maptiler/1.0
 - `data/map-stories.json`
 - `data/works.json`
 - `data/collectibles.json`
+- `data/trips.json`
+- `data/trip-attachments.json`：旅行附件元数据；文件存储在私有目录，不进入公开资源
 - 上传文件：`public/uploads/`（默认被 `.gitignore` 忽略）
 
 数据层集中在 `src/lib/storage.ts`，未来可以平滑替换为 SQLite、Postgres 或对象存储。

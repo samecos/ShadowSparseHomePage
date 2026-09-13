@@ -28,7 +28,7 @@ export const site = {
   role: '设计、代码与日常观察',
   tagline: '把日常整理成一处安静的地方。',
   intro:
-    '这里放我的日常说说、地图上的记忆、做过的工作，以及由 HERMES 打理的趣味收藏。不追求热闹，只希望每一次打开都足够安静、清楚。',
+    '这里放我的日常说说、地图上的记忆、做过的工作、旅行计划，以及由 HERMES 打理的趣味收藏。不追求热闹，只希望每一次打开都足够安静、清楚。',
   location: 'Hangzhou, China',
   coordinates: '30.25° N, 120.14° E',
   email: 'hello@example.com',
@@ -38,7 +38,8 @@ export const site = {
     { href: '/photos', label: '照片', index: '02' },
     { href: '/map', label: '地图', index: '03' },
     { href: '/work', label: '工作', index: '04' },
-    { href: '/collection', label: '搜集', index: '05' }
+    { href: '/collection', label: '搜集', index: '05' },
+    { href: '/travel', label: '旅行', index: '06' }
   ],
   map: {
     center: [30.2501, 120.1402] as [number, number],

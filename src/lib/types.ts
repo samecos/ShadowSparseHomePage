@@ -105,3 +105,109 @@ export interface Collectible {
   createdAt: string;
   updatedAt: string;
 }
+
+export type TripStatus = 'planning' | 'active' | 'completed' | 'archived';
+export type TripVisibility = 'private' | 'public';
+export type TripPlanItemType = 'place' | 'transport' | 'stay' | 'activity' | 'note';
+export type TripEntryType = 'note' | 'photo' | 'place';
+
+export interface TripChecklistItem {
+  id: string;
+  label: string;
+  category?: 'luggage' | 'document' | 'device' | 'purchase' | 'other';
+  completed: boolean;
+}
+
+export interface TripPlanItem {
+  id: string;
+  time?: string;
+  title: string;
+  note?: string;
+  locationName?: string;
+  lat?: number;
+  lng?: number;
+  url?: string;
+  type: TripPlanItemType;
+}
+
+export interface TripDay {
+  id: string;
+  date: string;
+  title?: string;
+  items: TripPlanItem[];
+  checklist: TripChecklistItem[];
+}
+
+export interface TripEntry {
+  id: string;
+  dayId?: string;
+  createdAt: string;
+  type: TripEntryType;
+  text?: string;
+  attachmentIds?: string[];
+  locationName?: string;
+  lat?: number;
+  lng?: number;
+  visibility: TripVisibility;
+}
+
+export interface TripReservation {
+  id: string;
+  type: 'transport' | 'stay' | 'activity';
+  title: string;
+  provider?: string;
+  startAt?: string;
+  endAt?: string;
+  locationName?: string;
+  confirmationCode?: string;
+  url?: string;
+  attachmentIds: string[];
+}
+
+export interface TripRecap {
+  intro?: string;
+  dayTitles?: Record<string, string>;
+  hiddenEntryIds?: string[];
+  featuredAttachmentIds?: string[];
+  pdfEnabled?: boolean;
+}
+
+export type TripEditor = 'admin' | 'hermes';
+
+export interface Trip {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  coverAttachmentId?: string;
+  destinations: string[];
+  startDate: string;
+  endDate: string;
+  status: TripStatus;
+  visibility: TripVisibility;
+  tags: string[];
+  days: TripDay[];
+  reservations: TripReservation[];
+  entries: TripEntry[];
+  recap?: TripRecap;
+  lastEditedBy?: TripEditor;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type TripAttachmentKind = 'media' | 'reservation';
+
+export interface TripAttachment {
+  id: string;
+  tripId: string;
+  reservationId?: string;
+  kind: TripAttachmentKind;
+  originalName: string;
+  storageKey: string;
+  mimeType: string;
+  size: number;
+  createdBy: TripEditor;
+  createdAt: string;
+}
+
+export type TripAttachmentSummary = Omit<TripAttachment, 'storageKey'>;

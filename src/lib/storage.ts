@@ -2,7 +2,14 @@ import { randomUUID } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 
-export type CollectionName = 'posts' | 'map-stories' | 'works' | 'collectibles' | 'photos';
+export type CollectionName =
+  | 'posts'
+  | 'map-stories'
+  | 'works'
+  | 'collectibles'
+  | 'photos'
+  | 'trips'
+  | 'trip-attachments';
 
 const defaultDataDir = path.join(process.cwd(), 'data');
 const dataDir = process.env.HOMEPAGE_DATA_DIR
@@ -14,7 +21,9 @@ const fileNames: Record<CollectionName, string> = {
   'map-stories': 'map-stories.json',
   works: 'works.json',
   collectibles: 'collectibles.json',
-  photos: 'photos.json'
+  photos: 'photos.json',
+  trips: 'trips.json',
+  'trip-attachments': 'trip-attachments.json'
 };
 
 const queues = new Map<string, Promise<unknown>>();

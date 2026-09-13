@@ -148,3 +148,123 @@ export const photoBatchSchema = z.object({
 export const uploadResponseSchema = z.object({
   url: z.string().min(1)
 });
+
+const tripPlanItemSchema = z
+  .object({
+    id: trimmed.min(1).max(80),
+    time: trimmed.max(30).optional(),
+    title: trimmed.min(1).max(160),
+    note: trimmed.max(1000).optional(),
+    locationName: trimmed.max(160).optional(),
+    lat: z.number().min(-90).max(90).optional(),
+    lng: z.number().min(-180).max(180).optional(),
+    url: optionalUrl,
+    type: z.enum(['place', 'transport', 'stay', 'activity', 'note']).default('place')
+  })
+  .refine(coordinatePair, { message: 'lat 和 lng 需要成对出现。', path: ['lat'] });
+
+const tripChecklistItemSchema = z.object({
+  id: trimmed.min(1).max(80),
+  label: trimmed.min(1).max(160),
+  category: z.enum(['luggage', 'document', 'device', 'purchase', 'other']).optional(),
+  completed: z.boolean().default(false)
+});
+
+const tripDaySchema = z.object({
+  id: trimmed.min(1).max(80),
+  date: trimmed.min(4).max(30),
+  title: trimmed.max(120).optional(),
+  items: z.array(tripPlanItemSchema).max(80).default([]),
+  checklist: z.array(tripChecklistItemSchema).max(80).default([])
+});
+
+const tripReservationSchema = z.object({
+  id: trimmed.min(1).max(80),
+  type: z.enum(['transport', 'stay', 'activity']),
+  title: trimmed.min(1).max(160),
+  provider: trimmed.max(120).optional(),
+  startAt: trimmed.max(40).optional(),
+  endAt: trimmed.max(40).optional(),
+  locationName: trimmed.max(160).optional(),
+  confirmationCode: trimmed.max(160).optional(),
+  url: optionalUrl,
+  attachmentIds: z.array(trimmed.min(1).max(100)).max(20).default([])
+});
+
+const tripEntrySchema = z
+  .object({
+    id: trimmed.min(1).max(80),
+    dayId: trimmed.max(80).optional(),
+    createdAt: trimmed.min(4).max(40),
+    type: z.enum(['note', 'photo', 'place']),
+    text: trimmed.max(3000).optional(),
+    attachmentIds: z.array(trimmed.min(1).max(100)).max(20).optional(),
+    locationName: trimmed.max(160).optional(),
+    lat: z.number().min(-90).max(90).optional(),
+    lng: z.number().min(-180).max(180).optional(),
+    visibility: z.enum(['private', 'public']).default('private')
+  })
+  .refine(coordinatePair, { message: 'lat 和 lng 需要成对出现。', path: ['lat'] });
+
+const tripRecapSchema = z.object({
+  intro: trimmed.max(3000).optional(),
+  dayTitles: z.record(z.string(), trimmed.max(120)).optional(),
+  hiddenEntryIds: z.array(trimmed.min(1).max(80)).max(500).optional(),
+  featuredAttachmentIds: z.array(trimmed.min(1).max(100)).max(100).optional(),
+  pdfEnabled: z.boolean().optional()
+});
+
+const tripFields = {
+  title: trimmed.min(1).max(160),
+  summary: trimmed.max(3000).default(''),
+  coverAttachmentId: trimmed.max(100).optional(),
+  destinations: z.array(trimmed.min(1).max(120)).max(20).default([]),
+  startDate: trimmed.min(4).max(30),
+  endDate: trimmed.min(4).max(30),
+  status: z.enum(['planning', 'active', 'completed', 'archived']).default('planning'),
+  visibility: z.enum(['private', 'public']).default('private'),
+  tags: z.array(trimmed.min(1).max(24)).max(20).default([]),
+  days: z.array(tripDaySchema).max(100).default([]),
+  reservations: z.array(tripReservationSchema).max(100).default([]),
+  entries: z.array(tripEntrySchema).max(1000).default([]),
+  recap: tripRecapSchema.optional()
+};
+
+const tripPatchFields = {
+  title: trimmed.min(1).max(160),
+  summary: trimmed.max(3000),
+  coverAttachmentId: trimmed.max(100),
+  destinations: z.array(trimmed.min(1).max(120)).max(20),
+  startDate: trimmed.min(4).max(30),
+  endDate: trimmed.min(4).max(30),
+  status: z.enum(['planning', 'active', 'completed', 'archived']),
+  visibility: z.enum(['private', 'public']),
+  tags: z.array(trimmed.min(1).max(24)).max(20),
+  days: z.array(tripDaySchema).max(100),
+  reservations: z.array(tripReservationSchema).max(100),
+  entries: z.array(tripEntrySchema).max(1000),
+  recap: tripRecapSchema
+};
+
+export const tripCreateSchema = z
+  .object(tripFields)
+  .superRefine((value, context) => {
+    const start = new Date(value.startDate).getTime();
+    const end = new Date(value.endDate).getTime();
+    if (Number.isFinite(start) && Number.isFinite(end) && end < start) {
+      context.addIssue({ code: 'custom', path: ['endDate'], message: '结束日期不能早于开始日期。' });
+    }
+  });
+
+export const tripPatchSchema = z
+  .object(tripPatchFields)
+  .partial()
+  .superRefine((value, context) => {
+    if (value.startDate && value.endDate) {
+      const start = new Date(value.startDate).getTime();
+      const end = new Date(value.endDate).getTime();
+      if (Number.isFinite(start) && Number.isFinite(end) && end < start) {
+        context.addIssue({ code: 'custom', path: ['endDate'], message: '结束日期不能早于开始日期。' });
+      }
+    }
+  });

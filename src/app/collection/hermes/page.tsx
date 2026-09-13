@@ -105,7 +105,7 @@ export default async function HermesPage() {
           <article className={styles.capability}>
             <span className={styles.capabilityIndex}>02</span>
             <h2>MCP Server</h2>
-            <p>stdio 传输的 MCP 服务，内置 11 个工具，可以直接被 Hermes、Claude、Cursor 等宿主加载。</p>
+            <p>stdio 传输的 MCP 服务，内置旅行规划工具，可以直接被 Hermes、Claude、Cursor 等宿主加载。</p>
           </article>
           <article className={styles.capability}>
             <span className={styles.capabilityIndex}>03</span>

@@ -4,7 +4,7 @@ import { PageBackdrop } from '@/components/site/page-backdrop';
 import { formatDate } from '@/lib/format';
 import { site } from '@/lib/site';
 import { readCollection } from '@/lib/storage';
-import type { Collectible, MapStory, Photo, Post, Work } from '@/lib/types';
+import type { Collectible, MapStory, Photo, Post, Trip, Work } from '@/lib/types';
 import { visiblePhotos } from '@/lib/photos';
 import styles from './page.module.css';
 
@@ -21,12 +21,13 @@ function firstImage(images?: string[]) {
 }
 
 export default async function HomePage() {
-  const [posts, stories, works, collectibles, photos] = await Promise.all([
+  const [posts, stories, works, collectibles, photos, trips] = await Promise.all([
     readCollection<Post>('posts'),
     readCollection<MapStory>('map-stories'),
     readCollection<Work>('works'),
     readCollection<Collectible>('collectibles'),
-    readCollection<Photo>('photos')
+    readCollection<Photo>('photos'),
+    readCollection<Trip>('trips')
   ]);
 
   const publicPhotos = visiblePhotos(photos, false);
@@ -34,6 +35,9 @@ export default async function HomePage() {
   const publicPosts = byNewest(
     posts.filter((post) => post.visibility === 'public'),
     (post) => post.createdAt
+  );
+  const publicTrips = trips.filter(
+    (trip) => trip.status === 'completed' && trip.visibility === 'public'
   );
   const publicStories = byNewest(stories, (story) => story.date).slice(0, 1);
   const publicCollections = byNewest(
@@ -83,6 +87,13 @@ export default async function HomePage() {
       title: '有趣的搜集',
       description: '由 HERMES 持续整理的灵感仓库。链接、图像、句子和声音，都会先落入收件箱，再被慢慢归位。',
       count: `${collectibles.filter((item) => item.status !== 'archived').length} 件`
+    },
+    {
+      href: '/travel',
+      index: '06',
+      title: '旅行',
+      description: '从出发前的行程、清单和预订材料，到回来后的地图与记忆，安排一段属于自己的路。',
+      count: `${publicTrips.length} 段`
     }
   ];
 
@@ -105,7 +116,7 @@ export default async function HomePage() {
             <div className={styles.heroMeta}>
               <span>{site.location}</span>
               <span>{site.coordinates}</span>
-              <span>五件事，长期更新</span>
+              <span>六件事，长期更新</span>
             </div>
           </div>
 
@@ -128,7 +139,7 @@ export default async function HomePage() {
         <section className={`${styles.section} reveal reveal-delay-1`}>
           <div className="section-head">
             <h2 className="section-head__title">目录</h2>
-            <span className="section-head__meta">05 ENTRIES</span>
+            <span className="section-head__meta">06 ENTRIES</span>
           </div>
           <div className={styles.indexRows}>
             {modules.map((item) => (

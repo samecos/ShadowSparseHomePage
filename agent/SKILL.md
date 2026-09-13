@@ -17,7 +17,7 @@ tags:
 
 > **我的机器人怎样才能正确调用这个主页的接口，以及怎样使用它的 MCP Server。**
 
-当任务涉及主页的日常说说、地图故事、工作数据或有趣的搜集时，优先使用 MCP；MCP 不可用时回退到 HTTP API。不要通过抓取 HTML 来读写数据。
+当任务涉及主页的日常说说、地图故事、工作数据、有趣的搜集或旅行规划时，优先使用 MCP；MCP 不可用时回退到 HTTP API。不要通过抓取 HTML 来读写数据。
 
 ## 1. 接入前必须先知道的变量
 
@@ -119,6 +119,25 @@ Content-Type: application/json
 | --- | --- | --- | --- |
 | `POST` | `/api/upload` | Bearer | 上传图片或 PDF，返回公开 URL |
 | `GET` | `/api/works` | 否 | 读取工作展示数据 |
+
+### 3.6 旅行规划
+
+| Method | Path | Auth | 用途 |
+| --- | --- | --- | --- |
+| `GET` | `/api/trips?status=&q=` | 否 / Bearer | 访客只看到已完成且公开的旅行；Bearer 可读取私密计划 |
+| `POST` | `/api/trips` | Bearer | 创建一条默认私密的旅行计划 |
+| `GET` | `/api/trips/:id` | 否 / Bearer | 读取旅行详情；私密内容需要鉴权 |
+| `PATCH` | `/api/trips/:id` | Bearer | 更新状态、行程、清单、预订、记录或回顾草稿 |
+| `DELETE` | `/api/trips/:id` | Bearer | 删除旅行及其私有附件；调用前必须确认目标 |
+| `GET` | `/api/trips/:id/attachments` | 否 / Bearer | 读取附件元数据，私有附件需要鉴权 |
+| `POST` | `/api/trips/:id/attachments` | Bearer | 上传旅行媒体或预订图片/PDF，最大 8MB |
+| `GET` | `/api/trips/:id/attachments/:attachmentId` | 否 / Bearer | 读取附件；公开旅行只允许读取媒体，预订附件永不公开 |
+
+旅行的状态为 `planning`、`active`、`completed` 或 `archived`。`planning` 与 `active` 会在服务端强制保持 `private`；只有完成后的旅行才允许公开。
+
+旅行写入建议先调用 `get_trip`，在内存中合并数组后再调用 `update_trip`，不要直接覆盖不相关的行程、清单或记录。
+
+预订附件与普通 `upload_media` 不同：必须使用 `upload_trip_attachment`，文件保存在私有存储中，不会返回公开 URL。
 
 ## 4. HTTP 调用示例
 
@@ -363,6 +382,12 @@ tools/call
 | `move_map_photo` | `PATCH /api/map-stories/:id` | `storyId`, `photoId`, `lat`, `lng` | 更新后的地图故事 |
 | `upload_media` | `POST /api/upload` | `filePath`（本机绝对路径） | `{ url }` |
 | `daily_digest` | `GET /api/agent/digest` | 无 | 收件箱统计与最近条目 |
+| `list_trips` | `GET /api/trips` | `status`, `query` | `items[]`, `total` |
+| `get_trip` | `GET /api/trips/:id` | `id` | `trip`, `attachments` |
+| `create_trip` | `POST /api/trips` | `title`, `startDate`, `endDate` 及可选计划字段 | 新旅行 |
+| `update_trip` | `PATCH /api/trips/:id` | `id` + 任意可更新字段 | 更新后的旅行 |
+| `delete_trip` | `DELETE /api/trips/:id` | `id` | 删除结果 |
+| `upload_trip_attachment` | `POST /api/trips/:id/attachments` | `tripId`, `filePath`, `kind`, `reservationId?` | 私有附件元数据 |
 
 ## 7. 常见任务的标准调用顺序
 
@@ -403,6 +428,27 @@ tools/call
 4. 每次只改一个故事，改完返回结果确认
 ```
 
+### 规划一段旅行
+
+```text
+1. 先调用 list_trips，确认是否已有同一段旅行
+2. 没有则调用 create_trip，只建立默认私密的计划骨架
+3. 调用 get_trip 获取当前完整内容
+4. 在内存中加入每日行程、清单或预订记录，再调用 update_trip
+5. 有本地票据或确认文件时，先创建对应 reservation，再调用 upload_trip_attachment
+6. 不要把 active 旅行改成 public；旅行公开前必须获得站长明确指令
+```
+
+### 整理旅行回顾
+
+```text
+1. 调用 get_trip 读取旅行、沿途记录和附件元数据
+2. 生成 recap 草稿，包含 intro、每日标题和候选封面
+3. 调用 update_trip 保存草稿，保持 visibility=private
+4. 由站长确认后，才将 completed 旅行设置为 public
+5. PDF 通过站长在网页端按需打印；Agent 不自动生成或公开 PDF
+```
+
 ## 8. 错误处理
 
 | 状态码 | 含义 | 机器人应该做什么 |
@@ -426,10 +472,11 @@ tools/call
 
 ## 10. 最短可用清单
 
-如果机器人只能记住五件事：
+如果机器人只能记住六件事：
 
 1. 地址来自 `HOMEPAGE_BASE_URL`。
 2. 写操作带 `Authorization: Bearer $HERMES_API_TOKEN`。
 3. 先读 `/api/agent/manifest`，再决定调用哪个端点。
 4. MCP 就在 `mcp/hermes-server.mjs`，stdio 传输，工具名见第 6 节。
 5. 默认进 `inbox`，删除前先确认。
+6. 旅行计划与预订附件默认私密；`active` 旅行永远不能公开。

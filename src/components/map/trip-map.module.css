@@ -1,0 +1,41 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  background: var(--paper-deep);
+}
+
+.map {
+  min-height: 320px;
+  filter: saturate(0.72) contrast(0.98);
+}
+
+.marker {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(25, 29, 34, 0.35);
+  border-radius: 50%;
+  background: rgba(246, 247, 248, 0.92);
+  color: var(--accent-deep);
+  box-shadow: 0 3px 14px rgba(25, 29, 34, 0.14);
+}
+
+.markerInner {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.empty {
+  position: absolute;
+  inset: 50% 24px auto;
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: 13px;
+  text-align: center;
+  transform: translateY(-50%);
+}

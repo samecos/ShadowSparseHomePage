@@ -170,6 +170,35 @@
 { "photo": { "id": "photo_01", "lat": 30.25, "lng": 120.14 } }
 ```
 
+## 旅行 API
+
+旅行以 `Trip` 为聚合对象，包含每日行程、准备清单、预订记录、沿途记录和回顾草稿。
+
+- `GET /api/trips?status=&q=`：访客只返回已完成且公开的旅行；管理员会话或 Agent Token 可读取全部旅行。
+- `POST /api/trips`：创建旅行，默认 `status=planning`、`visibility=private`。
+- `GET /api/trips/:id`：读取旅行详情及附件元数据；私密旅行需要鉴权。
+- `PATCH /api/trips/:id`：更新旅行字段。`planning` 和 `active` 状态由服务端强制保持私密。
+- `DELETE /api/trips/:id`：删除旅行及其私有附件，需要写权限。
+- `GET /api/trips/:id/attachments`：读取附件元数据；私有附件需要鉴权。
+- `POST /api/trips/:id/attachments`：上传旅行媒体或预订附件，使用 `multipart/form-data` 的 `file` 字段；支持图片/PDF，单文件不超过 8MB。预订附件还需要 `kind=reservation` 和 `reservationId`。
+- `GET /api/trips/:id/attachments/:attachmentId`：读取附件。公开旅行只允许读取媒体附件，预订附件永不公开。
+
+最小创建请求：
+
+```json
+{
+  "title": "沿着海岸线慢慢走",
+  "destinations": ["厦门", "泉州"],
+  "startDate": "2026-10-01",
+  "endDate": "2026-10-05",
+  "summary": "给自己几天不赶路的时间。"
+}
+```
+
+旅行写入建议先读取完整对象，在内存中合并 `days`、`reservations` 或 `entries` 后再 PATCH，避免覆盖其他阶段的数据。Agent 使用同一组端点和 Bearer Token；它不是协作者账号，不能自行公开进行中的旅行。
+
+注意：普通 `POST /api/upload` 返回公开媒体地址，不能用于预订材料。预订材料存放在 `data/private-uploads`，通过旅行附件接口鉴权读取。
+
 ## 照片 API
 
 ### Photo
