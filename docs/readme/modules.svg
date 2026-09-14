@@ -1,4 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="150" viewBox="0 0 720 150" role="img" aria-label="六盏荷花灯顺着小河漂:01 日常说说、02 照片、03 地图故事、04 工作展示、05 有趣的搜集、06 旅行">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="170" viewBox="0 0 720 170" role="img" aria-label="六盏荷花灯顺着小河漂:01 日常说说、02 照片、03 地图故事、04 工作展示、05 有趣的搜集、06 旅行">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDF0F2" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#EDF0F2" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#E4E9ED" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DDE5EA" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#DDE5EA" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e9cdaa" stop-opacity="0.55"/>
+      <stop offset="0.6" stop-color="#e9cdaa" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#e9cdaa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
   <style>
     .wave { stroke: #658092; fill: none; stroke-linecap: round; animation: drift 9s ease-in-out infinite alternate; }
     .w1 { opacity: 0.3; }
@@ -9,7 +25,7 @@
     .num {
       font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", "Noto Serif CJK SC", serif;
       font-size: 12px;
-      fill: #8B939C;
+      fill: #4A525C;
       letter-spacing: 0.1em;
     }
     @keyframes drift {
@@ -34,8 +50,22 @@
     }
   </style>
 
+  <!-- 层 1 · 天色 -->
+  <rect x="0" y="0" width="720" height="170" fill="url(#sky)"/>
+
+  <!-- 层 2 · 落日余晖 -->
+  <circle cx="585" cy="46" r="52" fill="url(#sun)"/>
+  <circle cx="585" cy="46" r="15" fill="#e9cdaa" opacity="0.5"/>
+
+  <!-- 层 3 · 远山(两重) -->
+  <path d="M 0 96 Q 70 72 150 90 Q 230 106 320 84 Q 410 64 500 88 Q 580 106 660 90 Q 700 84 720 88 L 720 170 L 0 170 Z" fill="#DDE5EA" opacity="0.55"/>
+  <path d="M 0 112 Q 90 96 180 108 Q 270 120 370 104 Q 470 90 560 108 Q 640 120 720 110 L 720 170 L 0 170 Z" fill="#D3DDE3" opacity="0.7"/>
+
+  <!-- 层 4 · 水面 -->
+  <rect x="0" y="118" width="720" height="52" fill="url(#water)"/>
+
   <!-- 小舟 -->
-  <g transform="translate(34, 114)">
+  <g transform="translate(34, 116)">
     <g class="rock">
       <path d="M -13 0 C -6.5 2 6.5 2 13 0 C 9.7 5.2 -9.7 5.2 -13 0 Z" fill="#fbfcfc" stroke="#4a525c" stroke-width="1.2" stroke-linejoin="round"/>
       <path d="M -4 -0.8 L -1.6 -8 L 2.4 -0.8 Z" fill="#d9a8b4" opacity="0.85"/>
@@ -43,54 +73,54 @@
   </g>
 
   <!-- 六盏荷花灯 -->
-  <g transform="translate(120, 58)">
+  <g transform="translate(120, 60)">
     <g class="bob" style="animation-delay: 0s">
-      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.12"/>
+      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.14"/>
       <path d="M 0 26 C -5 14 -3.5 4 0.5 0 C 4.5 4 6 14 2 26 Z" fill="#dcaeae"/>
       <path d="M 0 26 C -6.5 23 -9.5 16 -8 10 C -3.5 13 -1 19 0 26 Z" fill="#d9a8b4"/>
       <path d="M 2 26 C 8.5 23 11.5 16 10 10 C 5.5 13 3 19 2 26 Z" fill="#d9a8b4"/>
       <text class="num" x="0" y="60" text-anchor="middle">01</text>
     </g>
   </g>
-  <g transform="translate(230, 62)">
+  <g transform="translate(230, 64)">
     <g class="bob" style="animation-delay: -1.4s">
-      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.12"/>
+      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.14"/>
       <path d="M 0 26 C -5 14 -3.5 4 0.5 0 C 4.5 4 6 14 2 26 Z" fill="#dcaeae"/>
       <path d="M 0 26 C -6.5 23 -9.5 16 -8 10 C -3.5 13 -1 19 0 26 Z" fill="#d9a8b4"/>
       <path d="M 2 26 C 8.5 23 11.5 16 10 10 C 5.5 13 3 19 2 26 Z" fill="#d9a8b4"/>
       <text class="num" x="0" y="60" text-anchor="middle">02</text>
     </g>
   </g>
-  <g transform="translate(340, 56)">
+  <g transform="translate(340, 58)">
     <g class="bob" style="animation-delay: -2.6s">
-      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.12"/>
+      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.14"/>
       <path d="M 0 26 C -5 14 -3.5 4 0.5 0 C 4.5 4 6 14 2 26 Z" fill="#dcaeae"/>
       <path d="M 0 26 C -6.5 23 -9.5 16 -8 10 C -3.5 13 -1 19 0 26 Z" fill="#d9a8b4"/>
       <path d="M 2 26 C 8.5 23 11.5 16 10 10 C 5.5 13 3 19 2 26 Z" fill="#d9a8b4"/>
       <text class="num" x="0" y="60" text-anchor="middle">03</text>
     </g>
   </g>
-  <g transform="translate(450, 61)">
+  <g transform="translate(450, 63)">
     <g class="bob" style="animation-delay: -0.8s">
-      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.12"/>
+      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.14"/>
       <path d="M 0 26 C -5 14 -3.5 4 0.5 0 C 4.5 4 6 14 2 26 Z" fill="#dcaeae"/>
       <path d="M 0 26 C -6.5 23 -9.5 16 -8 10 C -3.5 13 -1 19 0 26 Z" fill="#d9a8b4"/>
       <path d="M 2 26 C 8.5 23 11.5 16 10 10 C 5.5 13 3 19 2 26 Z" fill="#d9a8b4"/>
       <text class="num" x="0" y="60" text-anchor="middle">04</text>
     </g>
   </g>
-  <g transform="translate(560, 57)">
+  <g transform="translate(560, 59)">
     <g class="bob" style="animation-delay: -2s">
-      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.12"/>
+      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.14"/>
       <path d="M 0 26 C -5 14 -3.5 4 0.5 0 C 4.5 4 6 14 2 26 Z" fill="#dcaeae"/>
       <path d="M 0 26 C -6.5 23 -9.5 16 -8 10 C -3.5 13 -1 19 0 26 Z" fill="#d9a8b4"/>
       <path d="M 2 26 C 8.5 23 11.5 16 10 10 C 5.5 13 3 19 2 26 Z" fill="#d9a8b4"/>
       <text class="num" x="0" y="60" text-anchor="middle">05</text>
     </g>
   </g>
-  <g transform="translate(664, 60)">
+  <g transform="translate(664, 62)">
     <g class="bob" style="animation-delay: -3.3s">
-      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.12"/>
+      <ellipse cx="0" cy="48" rx="13" ry="2.4" fill="#658092" opacity="0.14"/>
       <path d="M 0 26 C -5 14 -3.5 4 0.5 0 C 4.5 4 6 14 2 26 Z" fill="#dcaeae"/>
       <path d="M 0 26 C -6.5 23 -9.5 16 -8 10 C -3.5 13 -1 19 0 26 Z" fill="#d9a8b4"/>
       <path d="M 2 26 C 8.5 23 11.5 16 10 10 C 5.5 13 3 19 2 26 Z" fill="#d9a8b4"/>
@@ -98,15 +128,15 @@
     </g>
   </g>
 
-  <!-- 水波:贴着灯脚,贯穿整条 -->
-  <path class="wave w1" d="M 0 118 Q 30 114 60 118 T 120 118 T 180 118 T 240 118 T 300 118 T 360 118 T 420 118 T 480 118 T 540 118 T 600 118 T 660 118 T 720 118"/>
-  <path class="wave w2" d="M 0 130 Q 30 126 60 130 T 120 130 T 180 130 T 240 130 T 300 130 T 360 130 T 420 130 T 480 130 T 540 130 T 600 130 T 660 130 T 720 130"/>
+  <!-- 水波 -->
+  <path class="wave w1" d="M 0 122 Q 30 118 60 122 T 120 122 T 180 122 T 240 122 T 300 122 T 360 122 T 420 122 T 480 122 T 540 122 T 600 122 T 660 122 T 720 122"/>
+  <path class="wave w2" d="M 0 136 Q 30 132 60 136 T 120 136 T 180 136 T 240 136 T 300 136 T 360 136 T 420 136 T 480 136 T 540 136 T 600 136 T 660 136 T 720 136"/>
 
   <!-- 鸥鹭 -->
-  <g transform="translate(640, 22)">
+  <g transform="translate(640, 24)">
     <path class="flap" d="M 0 0 Q 5 -5 10 0 Q 5 -2.5 0 0 Z" fill="#4a525c" opacity="0.45"/>
   </g>
-  <g transform="translate(666, 32)">
+  <g transform="translate(666, 34)">
     <path class="flap" style="animation-delay: -0.5s" d="M 0 0 Q 4 -4 8 0 Q 4 -2 0 0 Z" fill="#4a525c" opacity="0.32"/>
   </g>
 </svg>
