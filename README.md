@@ -1,40 +1,29 @@
 <div align="center">
   <img src="docs/readme/banner.svg" alt="疏影渡 · 常记溪亭日暮，兴尽晚回舟，误入藕花深处" width="960" />
-  <p>
-    <img src="https://img.shields.io/badge/Next.js-App_Router-3F586A?style=flat-square&labelColor=EDF0F2" alt="Next.js App Router" />
-    <img src="https://img.shields.io/badge/TypeScript-Strict-658092?style=flat-square&labelColor=EDF0F2" alt="TypeScript Strict" />
-    <img src="https://img.shields.io/badge/MapTiler-Satellite-658092?style=flat-square&labelColor=EDF0F2" alt="MapTiler Satellite" />
-    <img src="https://img.shields.io/badge/HERMES-API_%C2%B7_MCP_%C2%B7_SKILL-191D22?style=flat-square&labelColor=EDF0F2" alt="HERMES" />
-  </p>
-  <p><sub>悄悄说：这份 README 也偷偷化了妆，你发现了吗 ✧</sub></p>
+  <img src="docs/readme/meta.svg" alt="Next.js · TypeScript · MapTiler · HERMES MCP" width="960" />
 </div>
 
----
+## 模块一览
 
-## ✦ 模块一览
+- **01 · 日常说说** —— 参考轻博客的时间流，支持心情、地点、图片和置顶。
+- **02 · 照片** —— 比照 iCloud 相册的图库体验：按时间、人物、地区自动分类，密度缩放、多选整理、收藏、灯箱与信息补写；上传时自动读取 EXIF 的拍摄时间与 GPS，并按坐标归入城市。
+- **03 · 地图故事** —— 照片落在真实坐标上，可以拖动照片、编辑文字标注、添加或删除照片。
+- **04 · 工作展示** —— 项目列表 + 独立子页面，包含角色、指标和完整案例叙事。
+- **05 · 有趣的搜集** —— 由 HERMES 通过 API / MCP / SKILL 接管：先入收件箱，再去重、摘要、打标签和归位。
+- **06 · 旅行** —— 以提前规划为主，集中管理行程、清单和私有预订材料，并为途中记录与旅行回顾留出位置。
 
-| № | 模块 | 体验 |
-|:-:|------|------|
-| 01 | **日常说说** | 参考轻博客的时间流，支持心情、地点、图片和置顶 |
-| 02 | **照片** | 比照 iCloud 相册的图库体验：按拍摄日期分组的整齐网格、密度缩放、多选批量整理、收藏、灯箱查看与信息补写；上传时自动读取 EXIF 的拍摄时间和 GPS 坐标 |
-| 03 | **地图故事** | 照片落在真实坐标上，可以拖动照片、编辑文字标注、添加或删除照片 |
-| 04 | **工作展示** | 项目列表 + 独立子页面，包含角色、指标和完整案例叙事 |
-| 05 | **有趣的搜集** | 由 HERMES 通过 API / MCP / SKILL 接管：先入收件箱，再去重、摘要、打标签和归位 |
-| 06 | **旅行** | 以提前规划为主，集中管理行程、清单和私有预订材料，并为途中记录与旅行回顾留出位置 |
+## 视觉方向
 
-## ✦ 视觉方向
-
-![](https://img.shields.io/badge/冷灰蓝-%23658092-658092?style=flat-square&labelColor=EDF0F2)
-![](https://img.shields.io/badge/雾白-%23F6F7F8-F6F7F8?style=flat-square&labelColor=E4E8EA)
-![](https://img.shields.io/badge/墨色-%23191D22-191D22?style=flat-square&labelColor=EDF0F2)
-![](https://img.shields.io/badge/深灰蓝-%233F586A-3F586A?style=flat-square&labelColor=EDF0F2)
+<div align="center">
+  <img src="docs/readme/palette.svg" alt="冷灰蓝 #658092 · 雾白 #F6F7F8 · 墨色 #191D22 · 深灰蓝 #3F586A" width="760" />
+</div>
 
 - 低饱和照片，充足留白
 - 细线、极轻的玻璃质感、很少但必要的动效
 - 中文标题使用宋体衬线，正文使用系统无衬线
 - 不做数据大屏，不做卡片堆叠，不做强渐变
 
-## ✦ 快速开始
+## 快速开始
 
 ```bash
 npm install
@@ -46,7 +35,7 @@ npm run dev
 > 本地开发默认口令已经写在 `.env.local`：默认访客模式下，页面不展示登录或后台入口；后台口令为 `local-admin`，HERMES Token 为 `local-hermes`。部署前请修改 `.env.local` 或平台环境变量，参考 `.env.example`。
 
 <details>
-<summary><b>✧ 隐藏登录入口怎么生成？</b></summary>
+<summary><b>隐藏登录入口怎么生成？</b></summary>
 
 隐藏登录地址由 `HOMEPAGE_ADMIN_SLUG` 决定，形如 `http://localhost:3000/<随机字符串>`，请使用只有你知道的随机值：
 
@@ -59,7 +48,7 @@ node -e "console.log(require('crypto').randomBytes(8).toString('hex'))"
 
 </details>
 
-## ✦ 地图底图
+## 地图底图
 
 地图组件使用 [MapTiler Cloud](https://cloud.maptiler.com/)：
 
@@ -70,7 +59,7 @@ node -e "console.log(require('crypto').randomBytes(8).toString('hex'))"
   `Allowed user-agent header`
 
 <details>
-<summary><b>✧ 配置与注意事项</b></summary>
+<summary><b>配置与注意事项</b></summary>
 
 在 `.env.local` 中配置：
 
@@ -89,7 +78,7 @@ MAPTILER_USER_AGENT=personal-homepage-maptiler/1.0
 
 </details>
 
-## ✦ 数据存储
+## 数据存储
 
 当前使用 JSON 文件，开箱即用：
 
@@ -97,6 +86,8 @@ MAPTILER_USER_AGENT=personal-homepage-maptiler/1.0
 |------|------|
 | `data/posts.json` | 日常说说 |
 | `data/photos.json` | 照片 |
+| `data/faces.json` / `data/people.json` | 相册人物聚类：人脸实例与人物，仅管理员可见 |
+| `data/admin-regions.json` | 城市级行政区划边界，由 `npm run build:regions` 生成 |
 | `data/uploads.json` | 本地人工上传照片的元数据，默认被 `.gitignore` 忽略，不会进入开源仓库 |
 | `data/map-stories.json` | 地图故事 |
 | `data/works.json` | 工作展示 |
@@ -107,7 +98,7 @@ MAPTILER_USER_AGENT=personal-homepage-maptiler/1.0
 
 数据层集中在 `src/lib/storage.ts`，未来可以平滑替换为 SQLite、Postgres 或对象存储。
 
-## ✦ HERMES 接入
+## HERMES 接入
 
 ### 1 · HTTP API
 
@@ -127,7 +118,7 @@ npm run mcp
 ```
 
 <details>
-<summary><b>✧ MCP 配置示例</b></summary>
+<summary><b>MCP 配置示例</b></summary>
 
 ```json
 {
@@ -159,7 +150,7 @@ npm run mcp
 3. 写操作带 `Authorization: Bearer $HERMES_API_TOKEN`
 4. 按 manifest 里的 schemas 校验参数
 
-## ✦ 常用命令
+## 常用命令
 
 | 命令 | 用途 |
 |------|------|
@@ -168,14 +159,16 @@ npm run mcp
 | `npm run start` | 生产运行 |
 | `npm run mcp` | 启动 MCP Server |
 | `npm run generate:media` | 重新生成占位抽象图 |
+| `npm run build:regions` | 重建行政区划边界数据 |
+| `npm run setup:faces` | 拷贝人脸识别模型到 `public/models/` |
 
-## ✦ 目录结构
+## 目录结构
 
 ```text
 src/
   app/                  Next.js 页面与 API
-  components/           导航、图标、地图等共享组件
-  lib/                  类型、存储、鉴权、校验和 manifest
+  components/           导航、图标、地图、相册等共享组件
+  lib/                  类型、存储、鉴权、校验、地区反查与人脸聚类
 data/                   JSON 数据
 mcp/                    MCP Server
 agent/                  Hermes 身份、SKILL 与机器清单
@@ -183,7 +176,7 @@ docs/                   API 与 MCP 文档
 public/photos/          抽象占位图，可直接替换为自己的照片
 ```
 
-## ✦ 部署提醒
+## 部署提醒
 
 - JSON 文件存储适合个人服务器和本地；部署到 Vercel 等无状态平台时请换成数据库 / 对象存储。
 - `public/uploads` 在无状态平台上同样需要替换为 S3、R2 或 OSS。

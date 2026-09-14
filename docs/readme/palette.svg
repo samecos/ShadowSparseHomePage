@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="72" viewBox="0 0 760 72" role="img" aria-label="色板:冷灰蓝 #658092、雾白 #F6F7F8、墨色 #191D22、深灰蓝 #3F586A">
+  <style>
+    .name {
+      font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", "Noto Serif CJK SC", serif;
+      font-size: 13px;
+      fill: #4A525C;
+    }
+    .hex {
+      font-family: "SFMono-Regular", "Roboto Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      fill: #8B939C;
+    }
+    .sw { stroke: rgba(25, 29, 34, 0.14); stroke-width: 1; }
+  </style>
+  <g transform="translate(24, 20)">
+    <rect class="sw" x="0" y="0" width="28" height="28" fill="#658092"/>
+    <text class="name" x="40" y="13">冷灰蓝</text>
+    <text class="hex" x="40" y="27">#658092</text>
+  </g>
+  <g transform="translate(214, 20)">
+    <rect class="sw" x="0" y="0" width="28" height="28" fill="#F6F7F8"/>
+    <text class="name" x="40" y="13">雾白</text>
+    <text class="hex" x="40" y="27">#F6F7F8</text>
+  </g>
+  <g transform="translate(404, 20)">
+    <rect class="sw" x="0" y="0" width="28" height="28" fill="#191D22"/>
+    <text class="name" x="40" y="13">墨色</text>
+    <text class="hex" x="40" y="27">#191D22</text>
+  </g>
+  <g transform="translate(594, 20)">
+    <rect class="sw" x="0" y="0" width="28" height="28" fill="#3F586A"/>
+    <text class="name" x="40" y="13">深灰蓝</text>
+    <text class="hex" x="40" y="27">#3F586A</text>
+  </g>
+</svg>

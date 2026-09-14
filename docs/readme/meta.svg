@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="44" viewBox="0 0 960 44" role="img" aria-label="Next.js App Router · TypeScript · MapTiler · HERMES MCP">
+  <style>
+    .line { stroke: rgba(25, 29, 34, 0.18); stroke-width: 1; }
+    .meta {
+      font-family: -apple-system, "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      font-size: 11.5px;
+      letter-spacing: 0.24em;
+      fill: #8B939C;
+    }
+  </style>
+  <line class="line" x1="0" y1="22" x2="220" y2="22"/>
+  <line class="line" x1="740" y1="22" x2="960" y2="22"/>
+  <text class="meta" x="480" y="26" text-anchor="middle">NEXT.JS · TYPESCRIPT · MAPTILER · HERMES MCP</text>
+</svg>
