@@ -3,7 +3,11 @@
   <img src="docs/readme/meta.svg" alt="Next.js · TypeScript · MapTiler · HERMES MCP" width="960" />
 </div>
 
-## 模块一览
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 模块一览
+
+<div align="center">
+  <img src="docs/readme/modules.svg" alt="六盏荷花灯顺着小河漂:01 日常说说、02 照片、03 地图故事、04 工作展示、05 有趣的搜集、06 旅行" width="960" />
+</div>
 
 - **01 · 日常说说** —— 参考轻博客的时间流，支持心情、地点、图片和置顶。
 - **02 · 照片** —— 比照 iCloud 相册的图库体验：按时间、人物、地区自动分类，密度缩放、多选整理、收藏、灯箱与信息补写；上传时自动读取 EXIF 的拍摄时间与 GPS，并按坐标归入城市。
@@ -12,7 +16,7 @@
 - **05 · 有趣的搜集** —— 由 HERMES 通过 API / MCP / SKILL 接管：先入收件箱，再去重、摘要、打标签和归位。
 - **06 · 旅行** —— 以提前规划为主，集中管理行程、清单和私有预订材料，并为途中记录与旅行回顾留出位置。
 
-## 视觉方向
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 视觉方向
 
 <div align="center">
   <img src="docs/readme/palette.svg" alt="冷灰蓝 #658092 · 雾白 #F6F7F8 · 墨色 #191D22 · 深灰蓝 #3F586A" width="760" />
@@ -23,7 +27,7 @@
 - 中文标题使用宋体衬线，正文使用系统无衬线
 - 不做数据大屏，不做卡片堆叠，不做强渐变
 
-## 快速开始
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 快速开始
 
 ```bash
 npm install
@@ -48,7 +52,7 @@ node -e "console.log(require('crypto').randomBytes(8).toString('hex'))"
 
 </details>
 
-## 地图底图
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 地图底图
 
 地图组件使用 [MapTiler Cloud](https://cloud.maptiler.com/)：
 
@@ -78,7 +82,7 @@ MAPTILER_USER_AGENT=personal-homepage-maptiler/1.0
 
 </details>
 
-## 数据存储
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 数据存储
 
 当前使用 JSON 文件，开箱即用：
 
@@ -98,7 +102,7 @@ MAPTILER_USER_AGENT=personal-homepage-maptiler/1.0
 
 数据层集中在 `src/lib/storage.ts`，未来可以平滑替换为 SQLite、Postgres 或对象存储。
 
-## HERMES 接入
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> HERMES 接入
 
 ### 1 · HTTP API
 
@@ -150,7 +154,7 @@ npm run mcp
 3. 写操作带 `Authorization: Bearer $HERMES_API_TOKEN`
 4. 按 manifest 里的 schemas 校验参数
 
-## 常用命令
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 常用命令
 
 | 命令 | 用途 |
 |------|------|
@@ -162,7 +166,7 @@ npm run mcp
 | `npm run build:regions` | 重建行政区划边界数据 |
 | `npm run setup:faces` | 拷贝人脸识别模型到 `public/models/` |
 
-## 目录结构
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 目录结构
 
 ```text
 src/
@@ -176,7 +180,7 @@ docs/                   API 与 MCP 文档
 public/photos/          抽象占位图，可直接替换为自己的照片
 ```
 
-## 部署提醒
+## <img src="docs/readme/sprout.svg" width="20" alt="" /> 部署提醒
 
 - JSON 文件存储适合个人服务器和本地；部署到 Vercel 等无状态平台时请换成数据库 / 对象存储。
 - `public/uploads` 在无状态平台上同样需要替换为 S3、R2 或 OSS。
