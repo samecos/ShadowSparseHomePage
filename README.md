@@ -6,7 +6,7 @@
 ## <img src="docs/readme/sprout.svg" width="20" alt="" /> 模块一览
 
 <div align="center">
-  <img src="docs/readme/modules.svg" alt="六盏荷花灯顺着小河漂:01 日常说说、02 照片、03 地图故事、04 工作展示、05 有趣的搜集、06 旅行" width="960" />
+  <img src="docs/readme/modules.svg" alt="六盏荷花灯顺着小河漂:01 日常说说、02 照片、03 地图故事、04 工作展示、05 有趣的搜集、06 旅行" width="680" />
 </div>
 
 - **01 · 日常说说** —— 参考轻博客的时间流，支持心情、地点、图片和置顶。
