@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="72" viewBox="0 0 760 72" role="img" aria-label="色板:冷灰蓝 #658092、雾白 #F6F7F8、墨色 #191D22、深灰蓝 #3F586A">
+  <defs>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    </filter>
+  </defs>
   <style>
     .name {
       font-family: "Songti SC", "STSong", "Noto Serif SC", "SimSun", "Noto Serif CJK SC", serif;
@@ -13,6 +18,9 @@
     }
     .sw { stroke: rgba(25, 29, 34, 0.14); stroke-width: 1; }
   </style>
+  <rect x="0" y="0" width="760" height="72" rx="14" fill="#F6F7F8"/>
+  <rect x="0" y="0" width="760" height="72" rx="14" filter="url(#grain)" opacity="0.045"/>
+  <rect x="0.5" y="0.5" width="759" height="71" rx="14" fill="none" stroke="rgba(25,29,34,0.08)"/>
   <g transform="translate(24, 20)">
     <rect class="sw" x="0" y="0" width="28" height="28" fill="#658092"/>
     <text class="name" x="40" y="13">冷灰蓝</text>

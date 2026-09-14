@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="170" viewBox="0 0 720 170" role="img" aria-label="六盏荷花灯顺着小河漂:01 日常说说、02 照片、03 地图故事、04 工作展示、05 有趣的搜集、06 旅行">
   <defs>
+    <clipPath id="frame">
+      <rect x="0" y="0" width="720" height="170" rx="16"/>
+    </clipPath>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    </filter>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#EDF0F2" stop-opacity="0"/>
       <stop offset="0.55" stop-color="#EDF0F2" stop-opacity="0.9"/>
@@ -49,6 +55,10 @@
       .wave, .bob, .rock, .flap { animation: none; }
     }
   </style>
+
+  <!-- 纸面基底 -->
+  <rect x="0" y="0" width="720" height="170" rx="16" fill="#F6F7F8"/>
+  <g clip-path="url(#frame)">
 
   <!-- 层 1 · 天色 -->
   <rect x="0" y="0" width="720" height="170" fill="url(#sky)"/>
@@ -139,4 +149,10 @@
   <g transform="translate(666, 34)">
     <path class="flap" style="animation-delay: -0.5s" d="M 0 0 Q 4 -4 8 0 Q 4 -2 0 0 Z" fill="#4a525c" opacity="0.32"/>
   </g>
+
+  </g>
+
+  <!-- 纸面噪点与细边 -->
+  <rect x="0" y="0" width="720" height="170" rx="16" filter="url(#grain)" opacity="0.045"/>
+  <rect x="0.5" y="0.5" width="719" height="169" rx="16" fill="none" stroke="rgba(25,29,34,0.08)"/>
 </svg>
