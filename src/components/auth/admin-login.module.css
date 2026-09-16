@@ -10,6 +10,11 @@
   border: 1px solid var(--line);
   background: rgba(251, 252, 252, 0.78);
   backdrop-filter: blur(12px);
+  box-shadow: 0 18px 48px rgba(25, 29, 34, 0.05);
+}
+
+.panel ::selection {
+  background: var(--accent-pale);
 }
 
 .panel h1 {
@@ -31,10 +36,84 @@
   gap: 18px;
 }
 
-.error {
+.field:focus-within .label {
+  color: var(--accent);
+}
+
+.label {
+  transition: color 0.3s var(--ease);
+}
+
+.input {
+  caret-color: var(--accent-deep);
+  transition:
+    border-color 0.3s var(--ease),
+    background-color 0.3s var(--ease);
+}
+
+.input::placeholder {
+  transition: color 0.3s var(--ease);
+}
+
+.input:focus {
+  background: rgba(101, 128, 146, 0.07);
+}
+
+.input:focus::placeholder {
+  color: var(--ink-faint);
+  opacity: 0.45;
+}
+
+.button {
+  width: 100%;
+  letter-spacing: 0.02em;
+  transition:
+    border-color 0.3s var(--ease),
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    letter-spacing 0.35s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.button:hover:not(:disabled) {
+  letter-spacing: 0.14em;
+}
+
+.button:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.form .error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0;
   color: var(--danger);
   font-size: 12px;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  animation: error-in 0.45s var(--ease) both;
+}
+
+.error::before {
+  flex: none;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  opacity: 0.7;
+}
+
+@keyframes error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .footer {
@@ -42,11 +121,30 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 26px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
   color: var(--ink-faint);
-  font-size: 12px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.footer a {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition:
+    color 0.3s var(--ease),
+    background-size: 0.35s var(--ease);
 }
 
 .footer a:hover {
   color: var(--ink);
+  background-size: 100% 1px;
+}
+
+.footer a:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
 }

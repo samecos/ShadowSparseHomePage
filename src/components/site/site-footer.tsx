@@ -28,11 +28,13 @@ export function SiteFooter() {
         <div>
           <p className={styles.columnTitle}>Elsewhere</p>
           <div className={styles.links}>
-            <a href={`mailto:${site.email}`}>{site.email}</a>
-            <a href="https://github.com/" target="_blank" rel="noreferrer">
+            <a className={styles.external} href={`mailto:${site.email}`}>
+              {site.email}
+            </a>
+            <a className={styles.external} href="https://github.com/" target="_blank" rel="noreferrer">
               GitHub
             </a>
-            <a href="https://www.are.na/" target="_blank" rel="noreferrer">
+            <a className={styles.external} href="https://www.are.na/" target="_blank" rel="noreferrer">
               Are.na
             </a>
           </div>
@@ -44,6 +46,20 @@ export function SiteFooter() {
             <ArrowUpRight size={13} />
           </Link>
         </div>
+      </div>
+
+      <div className={`${styles.meta} shell`}>
+        <span>© {new Date().getFullYear()} {site.name}</span>
+        <span className={styles.metaSep} aria-hidden="true">
+          ·
+        </span>
+        <span>{site.location}</span>
+        <span className={styles.metaSep} aria-hidden="true">
+          ·
+        </span>
+        <Link className={styles.metaLink} href="/collection/hermes">
+          由 {site.hermes.name} 打理
+        </Link>
       </div>
     </footer>
   );

@@ -167,6 +167,9 @@ export default async function HomePage() {
             {latestStory ? (
               <Link className={styles.recentCard} href="/map">
                 <span className={styles.recentLabel}>地图故事</span>
+                <span className={styles.recentArrow}>
+                  <ArrowUpRight size={16} />
+                </span>
                 <span className={styles.recentMedia}>
                   <img
                     className={styles.recentImage}
@@ -189,6 +192,9 @@ export default async function HomePage() {
             {latestPost ? (
               <Link className={styles.recentCard} href="/says">
                 <span className={styles.recentLabel}>日常说说</span>
+                <span className={styles.recentArrow}>
+                  <ArrowUpRight size={16} />
+                </span>
                 <span className={styles.recentMedia}>
                   <img
                     className={styles.recentImage}
@@ -205,6 +211,9 @@ export default async function HomePage() {
             {latestCollection ? (
               <Link className={styles.recentCard} href="/collection">
                 <span className={styles.recentLabel}>有趣的搜集</span>
+                <span className={styles.recentArrow}>
+                  <ArrowUpRight size={16} />
+                </span>
                 <span className={styles.recentMedia}>
                   <img
                     className={styles.recentImage}

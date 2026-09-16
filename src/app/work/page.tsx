@@ -38,15 +38,26 @@ export default async function WorkPage() {
 
         <div className={styles.list}>
           {sorted.map((work, index) => (
-            <Link className={styles.item} href={`/work/${work.slug}`} key={work.id}>
+            <Link
+              className={`${styles.item} reveal`}
+              href={`/work/${work.slug}`}
+              key={work.id}
+              style={{ animationDelay: `${0.12 + index * 0.08}s` }}
+            >
               <span className={styles.itemIndex}>{String(index + 1).padStart(2, '0')}</span>
               <div className={styles.itemBody}>
                 <div className={styles.itemTitleRow}>
                   <h2 className={styles.itemTitle}>{work.title}</h2>
-                  <span className={styles.itemYear}>{work.year}</span>
+                  <span className={styles.itemMeta}>
+                    <span>{work.year}</span>
+                    <span className={styles.itemMetaSep} aria-hidden="true">
+                      ·
+                    </span>
+                    <span>{work.role}</span>
+                  </span>
                 </div>
                 <p className={styles.itemSubtitle}>{work.subtitle}</p>
-                <span className={styles.itemMeta}>
+                <span className={styles.itemTags}>
                   {work.tags.map((tag) => (
                     <span className="chip" key={tag}>
                       {tag}

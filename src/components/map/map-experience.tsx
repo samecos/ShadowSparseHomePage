@@ -679,7 +679,7 @@ export function MapExperience({
                 <CloseIcon size={14} />
               </button>
             </div>
-            <p className={styles.panelSub}>
+            <p className={`${styles.panelSub} ${styles.coords}`}>
               {draft.lat.toFixed(5)}, {draft.lng.toFixed(5)}
             </p>
           </div>

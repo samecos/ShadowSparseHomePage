@@ -189,7 +189,7 @@ export function SaysFeed({ initialPosts }: { initialPosts: Post[] }) {
         ) : null}
 
         <section className={styles.feed}>
-          <div className={styles.feedTools}>
+          <div className={`${styles.feedTools} reveal`}>
             <span className={styles.feedCount}>
               {activeMood ? `筛选：${activeMood}` : '全部记录'} · {filteredPosts.length}
             </span>
@@ -219,11 +219,15 @@ export function SaysFeed({ initialPosts }: { initialPosts: Post[] }) {
           {filteredPosts.length === 0 ? (
             <p className="empty">还没有记录。第一句话可以从今天开始。</p>
           ) : (
-            filteredPosts.map((post) => (
-              <article className={styles.post} key={post.id}>
+            filteredPosts.map((post, index) => (
+              <article
+                className={`${styles.post} reveal`}
+                key={post.id}
+                style={{ animationDelay: `${Math.min(index, 5) * 70}ms` }}
+              >
                 <div className={styles.postTime}>
                   <strong>{formatDate(post.createdAt)}</strong>
-                  {formatTime(post.createdAt)}
+                  <span>{formatTime(post.createdAt)}</span>
                 </div>
                 <div>
                   <div className={styles.postHeader}>
@@ -258,7 +262,7 @@ export function SaysFeed({ initialPosts }: { initialPosts: Post[] }) {
         </section>
       </div>
 
-      <aside className={styles.aside}>
+      <aside className={`${styles.aside} reveal reveal-delay-2`}>
         <div>
           <h2 className={styles.asideTitle}>About</h2>
           <p>

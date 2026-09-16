@@ -67,7 +67,7 @@ export default async function HermesPage() {
     <main className="main">
       <div className="shell">
         <Link className={styles.back} href="/collection">
-          <ArrowRight size={13} style={{ transform: 'rotate(180deg)' }} />
+          <ArrowRight size={13} />
           返回有趣的搜集
         </Link>
 
@@ -114,7 +114,7 @@ export default async function HermesPage() {
           </article>
         </section>
 
-        <section className={styles.section}>
+        <section className={`${styles.section} reveal reveal-delay-1`}>
           <h2 className={styles.sectionTitle}>API 端点</h2>
           <p className={styles.sectionHint}>Manifest 地址：/api/agent/manifest</p>
           <div className={styles.tableWrap}>
@@ -154,10 +154,10 @@ export default async function HermesPage() {
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section className={`${styles.section} reveal reveal-delay-2`}>
           <h2 className={styles.sectionTitle}>MCP 接入</h2>
           <p className={styles.sectionHint}>在宿主配置中加入：</p>
-          <pre className={`${styles.codeBlock}`} style={{ marginTop: 22 }}>{mcpConfig}</pre>
+          <pre className={`${styles.codeBlock} ${styles.configBlock}`}>{mcpConfig}</pre>
         </section>
 
         <section className={styles.section}>
@@ -173,7 +173,7 @@ export default async function HermesPage() {
           </ul>
         </section>
 
-        <section className={styles.section}>
+        <section className={`${styles.section} reveal reveal-delay-1`}>
           <h2 className={styles.sectionTitle}>Agent 文件</h2>
           <p className={styles.sectionHint}>角色、技能和机器可读清单都在仓库中版本管理。</p>
           <div className={styles.fileList}>
@@ -190,8 +190,8 @@ export default async function HermesPage() {
               <span>机器可读的接口、MCP 工具与参数 schema。</span>
             </div>
           </div>
-          <p style={{ marginTop: 24, color: 'var(--ink-faint)', fontSize: 12 }}>
-            <CheckIcon size={14} style={{ verticalAlign: -2, marginRight: 6 }} />
+          <p className={styles.footnote}>
+            <CheckIcon size={14} />
             所有接口的字段结构都写进了 manifest.schemas。接口稳定，存储可替换。
           </p>
         </section>

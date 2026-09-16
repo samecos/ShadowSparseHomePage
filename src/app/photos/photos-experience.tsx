@@ -499,7 +499,7 @@ export function PhotosExperience({
 
   return (
     <div className={styles.page}>
-      <header className={styles.toolbar}>
+      <header className={`${styles.toolbar} reveal`}>
         <PageBackdrop src="/photos/photo-07.png" position="center 26%" />
         <div className={styles.toolbarTop}>
           <div>
@@ -720,13 +720,14 @@ export function PhotosExperience({
               <section key={group.key} className={styles.dayGroup}>
                 <h2 className={styles.dayHead}>{group.label}</h2>
                 <div className={styles.grid} style={{ '--tile': `${tileSize}px` } as CSSProperties}>
-                  {group.items.map((photo) => {
+                  {group.items.map((photo, index) => {
                     const selected = selectedIds.has(photo.id);
                     return (
                       <button
                         key={photo.id}
                         type="button"
                         className={`${styles.tile} ${selected ? styles.tileSelected : ''}`}
+                        style={{ '--stagger': String(Math.min(index, 8)) } as CSSProperties}
                         onClick={() => handleTileClick(photo)}
                         aria-label={photo.title || photo.locationName || '查看照片'}
                         aria-pressed={selectMode ? selected : undefined}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { pendingScans, scanPhoto } from '@/lib/faces';
 import type { Photo } from '@/lib/types';
 import styles from './people-album.module.css';
@@ -258,11 +259,12 @@ export function PeopleAlbum({
         {error ? <p className={styles.error}>{error}</p> : null}
 
         <div className={styles.photoGrid}>
-          {selectedPhotos.map((photo) => (
+          {selectedPhotos.map((photo, index) => (
             <button
               key={photo.id}
               type="button"
               className={styles.photoTile}
+              style={{ '--stagger': String(Math.min(index, 8)) } as CSSProperties}
               onClick={() => onOpenPhoto(photo.id, selectedPhotos)}
               aria-label={photo.title || photo.locationName || '查看照片'}
             >
@@ -317,8 +319,12 @@ export function PeopleAlbum({
         </div>
       ) : (
         <div className={styles.peopleGrid}>
-          {listed.map((person) => (
-            <div key={person.id} className={styles.personCard}>
+          {listed.map((person, index) => (
+            <div
+              key={person.id}
+              className={styles.personCard}
+              style={{ '--stagger': String(Math.min(index, 10)) } as CSSProperties}
+            >
               <button
                 type="button"
                 className={styles.personFace}

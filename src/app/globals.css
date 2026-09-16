@@ -64,6 +64,30 @@ body::before {
 a {
   color: inherit;
   text-decoration: none;
+  transition: color 0.3s var(--ease);
+}
+
+:root {
+  scrollbar-color: var(--paper-deep) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--paper);
+  border-radius: 999px;
+  background: var(--paper-deep);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-pale);
 }
 
 button,
@@ -230,9 +254,11 @@ img {
   *,
   *::before,
   *::after {
+    animation-delay: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0.01ms !important;
   }
 }
 
@@ -306,6 +332,15 @@ img {
   color: var(--ink-faint);
   font-size: 12px;
   line-height: 1;
+  transition:
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    background-color 0.3s var(--ease);
+}
+
+.chip:hover:not(.chip--active) {
+  border-color: var(--accent);
+  color: var(--accent-deep);
 }
 
 .chip--active {

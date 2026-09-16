@@ -29,6 +29,7 @@
   background: rgba(248, 249, 250, 0.86);
   box-shadow: 0 12px 30px rgba(49, 63, 72, 0.1);
   backdrop-filter: blur(14px) saturate(1.2);
+  animation: riseIn 0.85s var(--ease) 0.18s both;
   transform: translateX(-50%);
 }
 
@@ -41,12 +42,13 @@
   letter-spacing: 0.05em;
   line-height: 1;
   transition:
-    color 0.25s var(--ease),
-    background 0.25s var(--ease),
-    box-shadow 0.25s var(--ease);
+    color 0.3s var(--ease),
+    background 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 
 .layerSwitch button:hover {
+  background: rgba(221, 229, 234, 0.5);
   color: var(--ink);
 }
 
@@ -73,6 +75,14 @@
   color: var(--ink-soft);
   font-family: var(--font-sans);
   line-height: 28px;
+  transition:
+    background 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.map :global(.leaflet-control-zoom a:hover) {
+  background: var(--paper-soft);
+  color: var(--accent-deep);
 }
 
 .map :global(.leaflet-control-attribution) {
@@ -84,6 +94,11 @@
 
 .map :global(.leaflet-control-attribution a) {
   color: var(--ink-faint);
+  transition: color 0.3s var(--ease);
+}
+
+.map :global(.leaflet-control-attribution a:hover) {
+  color: var(--accent-deep);
 }
 
 .panel {
@@ -94,6 +109,7 @@
   border: 1px solid rgba(255, 255, 255, 0.72);
   background: rgba(248, 249, 250, 0.86);
   box-shadow: 0 24px 60px rgba(49, 63, 72, 0.12);
+  animation: riseIn 0.85s var(--ease) both;
   backdrop-filter: blur(18px) saturate(1.2);
 }
 
@@ -102,6 +118,7 @@
   bottom: 22px;
   left: 22px;
   width: 324px;
+  animation-delay: 0.05s;
 }
 
 .panelRight {
@@ -109,6 +126,7 @@
   right: 22px;
   bottom: 22px;
   width: 374px;
+  animation-delay: 0.12s;
 }
 
 .panelHeader {
@@ -135,7 +153,13 @@
   margin: 7px 0 0;
   color: var(--ink-faint);
   font-size: 11px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
+}
+
+.coords {
+  font-family: "SFMono-Regular", "Roboto Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.02em;
 }
 
 .storyList {
@@ -144,6 +168,42 @@
   padding: 0;
   overflow-y: auto;
   list-style: none;
+}
+
+.storyList li {
+  animation: riseIn 0.85s var(--ease) both;
+}
+
+.storyList li:nth-child(1) {
+  animation-delay: 0.08s;
+}
+
+.storyList li:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.storyList li:nth-child(3) {
+  animation-delay: 0.22s;
+}
+
+.storyList li:nth-child(4) {
+  animation-delay: 0.29s;
+}
+
+.storyList li:nth-child(5) {
+  animation-delay: 0.36s;
+}
+
+.storyList li:nth-child(6) {
+  animation-delay: 0.43s;
+}
+
+.storyList li:nth-child(7) {
+  animation-delay: 0.5s;
+}
+
+.storyList li:nth-child(n + 8) {
+  animation-delay: 0.57s;
 }
 
 .storyItem {
@@ -158,7 +218,7 @@
   color: inherit;
   text-align: left;
   cursor: pointer;
-  transition: background 0.25s var(--ease);
+  transition: background 0.3s var(--ease);
 }
 
 .storyItem:hover {
@@ -191,6 +251,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: saturate(0.78);
+  transition:
+    transform 0.85s var(--ease),
+    filter 0.85s var(--ease);
+}
+
+.storyItem:hover .storyThumb img {
+  transform: scale(1.04);
+  filter: saturate(1);
 }
 
 .storyItemBody {
@@ -204,6 +273,11 @@
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: color 0.3s var(--ease);
+}
+
+.storyItem:hover .storyItemTitle {
+  color: var(--accent-deep);
 }
 
 .storyItemMeta {
@@ -212,7 +286,7 @@
   overflow: hidden;
   color: var(--ink-faint);
   font-size: 10px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -254,7 +328,7 @@
 .panelFooterRow span {
   color: var(--ink-faint);
   font-size: 10px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 .hintPill {
@@ -272,7 +346,8 @@
   box-shadow: 0 12px 30px rgba(49, 63, 72, 0.1);
   color: var(--ink-soft);
   font-size: 11px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  animation: riseIn 0.85s var(--ease) 0.26s both;
   backdrop-filter: blur(12px);
   transform: translateX(-50%);
 }
@@ -291,11 +366,13 @@
   border-radius: 50%;
   color: var(--ink-faint);
   transition:
-    color 0.25s var(--ease),
-    border-color 0.25s var(--ease);
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    background 0.3s var(--ease);
 }
 
 .panelClose:hover {
+  background: rgba(221, 229, 234, 0.45);
   border-color: var(--accent);
   color: var(--ink);
 }
@@ -313,7 +390,7 @@
   width: 100%;
   max-height: 360px;
   object-fit: contain;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   background: var(--paper-deep);
 }
 
@@ -345,6 +422,8 @@
 .photoList {
   display: grid;
   gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
 
 .photoRow {
@@ -355,6 +434,11 @@
   padding: 8px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.42);
+  transition: background 0.3s var(--ease);
+}
+
+.photoRow:hover {
+  background: var(--paper-soft);
 }
 
 .photoRow img {
@@ -362,6 +446,15 @@
   height: 50px;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.7);
+  filter: saturate(0.8);
+  transition:
+    transform 0.85s var(--ease),
+    filter 0.85s var(--ease);
+}
+
+.photoRow:hover img {
+  transform: scale(1.04);
+  filter: saturate(1);
 }
 
 .photoRowBody {
@@ -383,8 +476,8 @@
 .photoRowMeta {
   color: var(--ink-faint);
   font-family: "SFMono-Regular", "Roboto Mono", monospace;
-  font-size: 9px;
-  letter-spacing: 0.02em;
+  font-size: 10px;
+  letter-spacing: 0.04em;
 }
 
 .detailActions {
@@ -392,7 +485,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
 }
 
 .detailActionsGroup {
@@ -410,7 +504,7 @@
 .autosaveHint {
   color: var(--ink-faint);
   font-size: 10px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
 }
 
 .empty {
@@ -480,7 +574,7 @@
 }
 
 .markerInner:hover {
-  transform: translateY(-3px) scale(1.06);
+  transform: translateY(-3px) scale(1.04);
 }
 
 .markerInner img {
@@ -490,13 +584,22 @@
   object-fit: cover;
   filter: saturate(0.74) contrast(0.98);
   pointer-events: none;
+  transition: filter 0.85s var(--ease);
+}
+
+.markerInner:hover img {
+  filter: saturate(0.92) contrast(0.98);
 }
 
 .markerSelected .markerInner {
   z-index: 3;
   border-color: var(--accent-deep);
   box-shadow: 0 14px 32px rgba(40, 52, 60, 0.28);
-  transform: translateY(-5px) scale(1.1);
+  transform: translateY(-4px) scale(1.06);
+}
+
+.markerSelected .markerInner img {
+  filter: saturate(0.88) contrast(0.98);
 }
 
 .markerCaption {
@@ -514,6 +617,7 @@
   color: var(--ink-soft);
   font-family: var(--font-sans);
   font-size: 10px;
+  letter-spacing: 0.05em;
   line-height: 1.3;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -545,6 +649,27 @@
   color: var(--accent-deep);
   font-family: var(--font-display);
   font-size: 22px;
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .layerSwitch,
+  .hintPill,
+  .storyList li {
+    animation: none;
+  }
 }
 
 @media (max-width: 1080px) {

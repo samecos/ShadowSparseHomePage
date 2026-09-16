@@ -124,7 +124,7 @@ export function CollectionGrid({ items }: { items: Collectible[] }) {
 
   return (
     <>
-      <div className={styles.agentPanel}>
+      <div className={`${styles.agentPanel} ${styles.agentPanelSection}`}>
         <div className={styles.agentPanelTop}>
           <span className={styles.agentPanelTitle}>HERMES · CURATOR MODE</span>
           <a className="btn btn--small" href="/collection/hermes">

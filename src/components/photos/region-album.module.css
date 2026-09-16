@@ -11,6 +11,16 @@
   border-radius: 14px;
   background: #e8ecef;
   box-shadow: 0 24px 60px rgba(49, 63, 72, 0.1);
+  animation: mapIn 0.85s var(--ease) both;
+}
+
+@keyframes mapIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .map :global(.leaflet-control-zoom) {
@@ -81,6 +91,7 @@
   z-index: 6;
   margin: 0;
   padding: 18px 2px 10px;
+  border-bottom: 1px solid var(--line);
   background: rgba(246, 247, 248, 0.88);
   backdrop-filter: blur(10px);
   color: var(--ink-soft);
@@ -91,11 +102,13 @@
 }
 
 .cityCount {
-  margin-left: 10px;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--line-strong);
   color: var(--ink-faint);
   font-family: var(--font-sans);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
 }
 
 .cityGrid {
@@ -110,8 +123,22 @@
   aspect-ratio: 1 / 1;
   padding: 0;
   border-radius: 2px;
+  outline: 1px solid var(--paper-deep);
+  outline-offset: -1px;
   background: var(--paper-deep);
   cursor: pointer;
+  animation: tileRise 0.85s var(--ease) both;
+  animation-delay: calc(var(--stagger, 0) * 55ms);
+  transition: outline-color 0.4s var(--ease);
+}
+
+.photoTile:hover {
+  outline-color: var(--line-strong);
+}
+
+.photoTile:focus-visible {
+  outline: 1.5px solid var(--accent);
+  outline-offset: -1.5px;
 }
 
 .photoTile img {
@@ -128,4 +155,22 @@
 .photoTile:focus-visible img {
   filter: saturate(0.88) contrast(1);
   transform: scale(1.045);
+}
+
+@keyframes tileRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map,
+  .photoTile {
+    animation: none;
+  }
 }

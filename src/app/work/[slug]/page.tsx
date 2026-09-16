@@ -33,7 +33,9 @@ export default async function WorkCasePage({ params }: PageProps) {
     <main className="main">
       <div className="shell">
         <Link className={styles.back} href="/work">
-          <ArrowRight size={13} style={{ transform: 'rotate(180deg)' }} />
+          <span className={styles.backArrow}>
+            <ArrowRight size={13} style={{ transform: 'rotate(180deg)' }} />
+          </span>
           返回工作列表
         </Link>
 
@@ -90,6 +92,7 @@ export default async function WorkCasePage({ params }: PageProps) {
             key={section.heading}
           >
             <div className={styles.sectionBody}>
+              <span className={styles.sectionIndex}>{String(sectionIndex + 1).padStart(2, '0')}</span>
               <h2 className={styles.sectionHeading}>{section.heading}</h2>
               <div className={styles.sectionText}>
                 {section.body.map((paragraph) => (
@@ -110,7 +113,7 @@ export default async function WorkCasePage({ params }: PageProps) {
 
         <Link className={styles.next} href={`/work/${next.slug}`}>
           <div>
-            <span className={styles.nextLabel}>Next project</span>
+            <span className={styles.nextLabel}>Next project · {next.year}</span>
             <h2 className={styles.nextTitle}>{next.title}</h2>
           </div>
           <span className={styles.nextArrow}>

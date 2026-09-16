@@ -1,14 +1,43 @@
 .back {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: var(--ink-faint);
   font-size: 12px;
-  transition: color 0.25s var(--ease);
+  transition: color 0.35s var(--ease);
+}
+
+.back svg {
+  rotate: 180deg;
+  translate: 0 0;
+  transition: translate 0.35s var(--ease);
+}
+
+.back::after {
+  position: absolute;
+  right: 0;
+  bottom: -3px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  content: "";
+  opacity: 0.45;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s var(--ease);
 }
 
 .back:hover {
   color: var(--ink);
+}
+
+.back:hover svg {
+  translate: -3px 0;
+}
+
+.back:hover::after {
+  transform: scaleX(1);
 }
 
 .hero {
@@ -44,6 +73,15 @@
   font-size: 11px;
 }
 
+.heroStatusItem:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.heroStatusItem span {
+  letter-spacing: 0.05em;
+}
+
 .heroStatusItem strong {
   color: var(--ink-soft);
   font-family: var(--font-display);
@@ -62,12 +100,34 @@
   padding: 24px 22px;
   border: 1px solid var(--line);
   background: rgba(251, 252, 252, 0.58);
+  transition:
+    background 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+  animation: rise 0.85s var(--ease) both;
+}
+
+.capability:nth-child(2) {
+  animation-delay: 0.07s;
+}
+
+.capability:nth-child(3) {
+  animation-delay: 0.14s;
+}
+
+.capability:hover {
+  border-color: var(--line-strong);
+  background: rgba(251, 252, 252, 0.92);
 }
 
 .capabilityIndex {
   color: var(--accent);
   font-family: var(--font-display);
   font-size: 12px;
+  transition: color 0.4s var(--ease);
+}
+
+.capability:hover .capabilityIndex {
+  color: var(--accent-deep);
 }
 
 .capability h2 {
@@ -95,10 +155,20 @@
   font-weight: 400;
 }
 
+.sectionTitle::before {
+  display: block;
+  width: 30px;
+  height: 1px;
+  margin-bottom: 16px;
+  background: var(--line-strong);
+  content: "";
+}
+
 .sectionHint {
   margin: 8px 0 0;
   color: var(--ink-faint);
   font-size: 12px;
+  letter-spacing: 0.04em;
 }
 
 .tableWrap {
@@ -120,6 +190,14 @@
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
+}
+
+.table tbody tr {
+  transition: background 0.3s var(--ease);
+}
+
+.table tbody tr:hover {
+  background: var(--paper-soft);
 }
 
 .table th {
@@ -155,7 +233,7 @@
   margin: 0;
   padding: 22px;
   overflow-x: auto;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(217, 225, 230, 0.14);
   background: #171b20;
   color: #d9e1e6;
   font-family: "SFMono-Regular", "Roboto Mono", monospace;
@@ -176,6 +254,18 @@
   text-transform: uppercase;
 }
 
+.codeLabel::before {
+  width: 12px;
+  height: 1px;
+  flex: none;
+  background: var(--line-strong);
+  content: "";
+}
+
+.configBlock {
+  margin-top: 22px;
+}
+
 .workflow {
   display: grid;
   gap: 0;
@@ -192,16 +282,49 @@
   align-items: baseline;
   padding: 16px 0;
   border-bottom: 1px solid var(--line);
+  transition: background 0.3s var(--ease);
+  animation: rise 0.85s var(--ease) both;
+}
+
+.workflow li:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.workflow li:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.workflow li:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+.workflow li:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+.workflow li:nth-child(6) {
+  animation-delay: 0.25s;
+}
+
+.workflow li:hover {
+  background: rgba(251, 252, 252, 0.7);
 }
 
 .workflowIndex {
   color: var(--accent);
   font-family: var(--font-display);
   font-size: 13px;
+  transition: color 0.3s var(--ease);
 }
 
 .workflow strong {
   font-weight: 500;
+  transition: color 0.3s var(--ease);
+}
+
+.workflow li:hover .workflowIndex,
+.workflow li:hover strong {
+  color: var(--accent-deep);
 }
 
 .workflow p {
@@ -224,6 +347,16 @@
   background: rgba(251, 252, 252, 0.55);
   font-family: "SFMono-Regular", "Roboto Mono", monospace;
   font-size: 12px;
+  transition:
+    color 0.35s var(--ease),
+    background 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
+
+.fileItem:hover {
+  border-color: var(--line-strong);
+  background: rgba(251, 252, 252, 0.92);
+  color: var(--accent-deep);
 }
 
 .fileItem span {
@@ -233,6 +366,32 @@
   font-family: var(--font-sans);
   font-size: 11px;
   line-height: 1.7;
+  transition: color 0.35s var(--ease);
+}
+
+.fileItem:hover span {
+  color: var(--ink-soft);
+}
+
+.footnote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  color: var(--ink-faint);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 900px) {

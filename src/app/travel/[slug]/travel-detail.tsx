@@ -582,8 +582,10 @@ export function TravelDetail({
   return (
     <>
       <Link className={detailStyles.back} href="/travel">
-        <ArrowRight size={13} style={{ transform: 'rotate(180deg)' }} />
-        返回旅行索引
+        <span className={detailStyles.backArrow} aria-hidden="true">
+          <ArrowRight size={13} style={{ transform: 'rotate(180deg)' }} />
+        </span>
+        <span className={detailStyles.backText}>返回旅行索引</span>
       </Link>
 
       <header className={`${detailStyles.hero} reveal`}>
@@ -670,7 +672,7 @@ export function TravelDetail({
       ) : null}
 
       {phase === 'before' ? (
-        <section className={detailStyles.phaseSection}>
+        <section className={`${detailStyles.phaseSection} reveal`}>
           <div className={detailStyles.sectionIntro}>
             <div>
               <p className="eyebrow">Before departure</p>
@@ -705,7 +707,7 @@ export function TravelDetail({
 
               <div className={detailStyles.dayList}>
                 {trip.days.map((day, index) => (
-                  <article className={detailStyles.day} key={day.id}>
+                  <article className={`${detailStyles.day} reveal${index > 0 ? ` reveal-delay-${Math.min(index, 3)}` : ''}`} key={day.id}>
                     <div className={detailStyles.dayHead}>
                       <span>DAY {String(index + 1).padStart(2, '0')}</span>
                       <strong>{formatDate(day.date)}</strong>
@@ -839,22 +841,22 @@ export function TravelDetail({
       ) : null}
 
       {phase === 'during' ? (
-        <section className={detailStyles.phaseSection}>
+        <section className={`${detailStyles.phaseSection} reveal`}>
           <div className={detailStyles.sectionIntro}><div><p className="eyebrow">On the road</p><h2>只留下当时真的想记住的。</h2></div><p>进行中的旅行始终私密。定位只在你主动授权时读取，也可以随时不用。</p></div>
           {canEdit ? <form className={detailStyles.entryComposer} onSubmit={addEntry}><div className={detailStyles.composerTop}><label className="field"><span className="field__label">归入哪一天</span><select className="select" value={selectedDayId} onChange={(event) => setSelectedDayId(event.target.value)}>{trip.days.map((day, index) => <option key={day.id} value={day.id}>第 {index + 1} 天 · {formatDate(day.date)}</option>)}</select></label><button className="btn btn--small" type="button" onClick={getCurrentLocation}><MapPinIcon size={14} />{location.lat ? '已记录当前位置' : '使用当前位置'}</button></div><textarea className="textarea" value={entryText} onChange={(event) => setEntryText(event.target.value)} placeholder="写下此刻，几句话就够了。" /><div className={detailStyles.composerFooter}><label className={detailStyles.fileButton}><UploadIcon size={13} />{entryFile ? entryFile.name : '附上一张照片'}<input type="file" accept="image/*" onChange={(event) => setEntryFile(event.target.files?.[0] ?? null)} /></label><span className={detailStyles.locationNote}>{location.lat ? `${location.lat.toFixed(4)}, ${location.lng?.toFixed(4)}` : '未使用定位'}</span><button className="btn btn--primary btn--small" type="submit" disabled={busy || (!entryText.trim() && !entryFile)}>记一笔 <ArrowUpRight size={13} /></button></div></form> : null}
           <div className={detailStyles.duringGrid}>
-          <div className={detailStyles.timeline}>{trip.entries.length > 0 ? [...trip.entries].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((entry) => <article key={entry.id} {...pointRowProps(entry.id, detailStyles.entry)}><div className={detailStyles.entryTime}>{badgeFor(entry.id)}<span>{formatDate(entry.createdAt)}</span><strong>{formatTime(entry.createdAt)}</strong></div><div className={detailStyles.entryBody}>{entry.text ? <p>{entry.text}</p> : null}{entry.locationName ? <span className={detailStyles.entryLocation}><MapPinIcon size={13} />{entry.locationName}</span> : null}{entry.attachmentIds?.map((id) => { const attachment = attachmentsById.get(id); if (!attachment) return null; return isImageAttachment(attachment) ? <img className={detailStyles.entryImage} src={attachmentUrl(trip.id, id)} alt={attachment.originalName} key={id} /> : <a className={detailStyles.entryFile} href={attachmentUrl(trip.id, id)} target="_blank" rel="noreferrer" key={id} onClick={(event) => event.stopPropagation()}>{attachment.originalName} · {formatBytes(attachment.size)}</a>; })}</div></article>) : <div className={detailStyles.emptyTimeline}>还没有沿途记录。等一个值得留下来的瞬间。</div>}</div>
+          <div className={detailStyles.timeline}>{trip.entries.length > 0 ? [...trip.entries].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((entry, index) => <article key={entry.id} {...pointRowProps(entry.id, `${detailStyles.entry} reveal${index > 0 ? ` reveal-delay-${Math.min(index, 3)}` : ''}`)}><div className={detailStyles.entryTime}>{badgeFor(entry.id)}<span>{formatDate(entry.createdAt)}</span><strong>{formatTime(entry.createdAt)}</strong></div><div className={detailStyles.entryBody}>{entry.text ? <p>{entry.text}</p> : null}{entry.locationName ? <span className={detailStyles.entryLocation}><MapPinIcon size={13} />{entry.locationName}</span> : null}{entry.attachmentIds?.map((id) => { const attachment = attachmentsById.get(id); if (!attachment) return null; return isImageAttachment(attachment) ? <img className={detailStyles.entryImage} src={attachmentUrl(trip.id, id)} alt={attachment.originalName} key={id} /> : <a className={detailStyles.entryFile} href={attachmentUrl(trip.id, id)} target="_blank" rel="noreferrer" key={id} onClick={(event) => event.stopPropagation()}>{attachment.originalName} · {formatBytes(attachment.size)}</a>; })}</div></article>) : <div className={detailStyles.emptyTimeline}>还没有沿途记录。等一个值得留下来的瞬间。</div>}</div>
             <div className={`${detailStyles.mapBlock} ${detailStyles.mapSticky}`}><div className={detailStyles.blockHead}><h3>沿途地点</h3><span>{mapPoints.length} POINTS</span></div><TripMap points={mapPoints} editable={canEdit} selectedId={selectedPointId} onSelectPoint={handleSelectPoint} onMovePoint={handleMovePoint} /></div>
           </div>
         </section>
       ) : null}
 
       {phase === 'after' ? (
-        <section className={`${detailStyles.phaseSection} ${detailStyles.afterSection}`}>
+        <section className={`${detailStyles.phaseSection} ${detailStyles.afterSection} reveal`}>
           <div className={detailStyles.sectionIntro}><div><p className="eyebrow">After the journey</p><h2>回来以后，再决定怎样保存。</h2></div><p>回顾页由计划、地点和沿途记录组成。你可以继续保持私密，也可以公开给访客阅读。</p></div>
           <div className={detailStyles.recapGrid}><div><div className={detailStyles.blockHead}><h3>回顾引言</h3><span>{trip.entries.length} RECORDS</span></div>{canEdit ? <textarea className={detailStyles.recapInput} value={recapIntro} onChange={(event) => setRecapIntro(event.target.value)} placeholder="这次旅行后来留下了什么？" /> : <p className={detailStyles.recapText}>{trip.recap?.intro || '还没有写下回顾引言。'}</p>}{canEdit ? <div className={detailStyles.recapActions}><button className="btn btn--small" type="button" onClick={saveRecap} disabled={busy}><CheckIcon size={13} />保存回顾</button><button className="btn btn--small" type="button" onClick={() => window.print()}><ArrowUpRight size={13} />打印 / 导出 PDF</button></div> : null}</div><aside className={detailStyles.recapStats}><div><span>天数</span><strong>{trip.days.length}</strong></div><div><span>地点</span><strong>{mapPoints.length}</strong></div><div><span>记录</span><strong>{trip.entries.length}</strong></div><div><span>预订</span><strong>{trip.reservations.length}</strong></div></aside></div>
           <div className={detailStyles.afterGrid}>
-          <div className={detailStyles.memoryList}><div className={detailStyles.blockHead}><h3>沿途记录</h3><span>EDITABLE TIMELINE</span></div>{trip.days.map((day, index) => { const entries = trip.entries.filter((entry) => entry.dayId === day.id); const items = day.items; return <article className={detailStyles.memoryDay} key={day.id}><div className={detailStyles.memoryDayHead}><span>DAY {String(index + 1).padStart(2, '0')}</span><strong>{formatDate(day.date)}</strong></div><div>{items.map((item) => <div key={item.id} {...pointRowProps(item.id, detailStyles.memoryItem)}><span>{badgeFor(item.id)}{item.time || '—'}</span><p><strong>{item.title}</strong>{item.locationName ? <small>{item.locationName}</small> : null}</p></div>)}{entries.map((entry) => <div key={entry.id} {...pointRowProps(entry.id, detailStyles.memoryEntry)}><span>{badgeFor(entry.id)}{formatTime(entry.createdAt)}</span><p>{entry.text || '一张照片'}{entry.locationName ? <small>{entry.locationName}</small> : null}</p></div>)}</div></article>; })}</div>
+          <div className={detailStyles.memoryList}><div className={detailStyles.blockHead}><h3>沿途记录</h3><span>EDITABLE TIMELINE</span></div>{trip.days.map((day, index) => { const entries = trip.entries.filter((entry) => entry.dayId === day.id); const items = day.items; return <article className={`${detailStyles.memoryDay} reveal${index > 0 ? ` reveal-delay-${Math.min(index, 3)}` : ''}`} key={day.id}><div className={detailStyles.memoryDayHead}><span>DAY {String(index + 1).padStart(2, '0')}</span><strong>{formatDate(day.date)}</strong></div><div>{items.map((item) => <div key={item.id} {...pointRowProps(item.id, detailStyles.memoryItem)}><span>{badgeFor(item.id)}{item.time || '—'}</span><p><strong>{item.title}</strong>{item.locationName ? <small>{item.locationName}</small> : null}</p></div>)}{entries.map((entry) => <div key={entry.id} {...pointRowProps(entry.id, detailStyles.memoryEntry)}><span>{badgeFor(entry.id)}{formatTime(entry.createdAt)}</span><p>{entry.text || '一张照片'}{entry.locationName ? <small>{entry.locationName}</small> : null}</p></div>)}</div></article>; })}</div>
             <div className={`${detailStyles.mapBlock} ${detailStyles.mapSticky}`}><div className={detailStyles.blockHead}><h3>路线回看</h3><span>{mapPoints.length} POINTS</span></div><TripMap points={mapPoints} editable={canEdit} selectedId={selectedPointId} onSelectPoint={handleSelectPoint} onMovePoint={handleMovePoint} /></div>
           </div>
         </section>

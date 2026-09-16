@@ -77,6 +77,10 @@
   color: var(--accent-deep);
 }
 
+.tab:not(.tabActive):hover {
+  background: var(--accent-pale);
+}
+
 .tabActive,
 .tabActive:hover {
   background: var(--ink);
@@ -96,6 +100,14 @@
   padding: 7px 2px;
   border-bottom: 1px solid var(--line-strong);
   color: var(--ink-faint);
+  transition:
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.search:focus-within {
+  border-bottom-color: var(--accent);
+  color: var(--ink-soft);
 }
 
 .search input {
@@ -213,13 +225,32 @@
 }
 
 .selectBarItem {
+  position: relative;
   color: var(--accent-deep);
   font-size: 12.5px;
   letter-spacing: 0.06em;
+  transition: color 0.3s var(--ease);
+}
+
+.selectBarItem::after {
+  position: absolute;
+  right: 0;
+  bottom: -3px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s var(--ease);
 }
 
 .selectBarItem:hover {
   color: var(--ink);
+}
+
+.selectBarItem:hover::after {
+  transform: scaleX(1);
 }
 
 .selectCount {
@@ -270,6 +301,7 @@
   z-index: 6;
   margin: 0;
   padding: 18px 2px 10px;
+  border-bottom: 1px solid var(--line);
   background: rgba(246, 247, 248, 0.88);
   backdrop-filter: blur(10px);
   color: var(--ink-soft);
@@ -291,7 +323,21 @@
   aspect-ratio: 1 / 1;
   padding: 0;
   border-radius: 2px;
+  outline: 1px solid var(--paper-deep);
+  outline-offset: -1px;
   background: var(--paper-deep);
+  animation: tileRise 0.85s var(--ease) both;
+  animation-delay: calc(var(--stagger, 0) * 55ms);
+  transition: outline-color 0.4s var(--ease);
+}
+
+.tile:hover {
+  outline-color: var(--line-strong);
+}
+
+.tile:focus-visible {
+  outline: 1.5px solid var(--accent);
+  outline-offset: -1.5px;
 }
 
 .tile img {
@@ -310,7 +356,25 @@
   transform: scale(1.045);
 }
 
-.tileSelected {
+@keyframes tileRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    animation: none;
+  }
+}
+
+.tileSelected,
+.tileSelected:hover {
   outline: 2px solid var(--accent-deep);
   outline-offset: -2px;
 }
@@ -401,11 +465,15 @@
 }
 
 .lightboxCounter {
+  letter-spacing: 0.1em;
   font-variant-numeric: tabular-nums;
 }
 
 .lightboxCaption {
   overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.04em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -423,7 +491,9 @@
   background: rgba(246, 247, 248, 0.07);
   color: rgba(246, 247, 248, 0.85);
   transform: translateY(-50%);
-  transition: background 0.25s var(--ease);
+  transition:
+    background 0.25s var(--ease),
+    transform 0.3s var(--ease);
 }
 
 .lightboxNav:hover {
@@ -434,8 +504,16 @@
   left: 18px;
 }
 
+.lightboxPrev:hover {
+  transform: translateY(-50%) translateX(-3px);
+}
+
 .lightboxNext {
   right: 18px;
+}
+
+.lightboxNext:hover {
+  transform: translateY(-50%) translateX(3px);
 }
 
 .lightboxInfoOpen .lightboxNext {
@@ -499,11 +577,13 @@
   line-height: 1;
   transition:
     background 0.25s var(--ease),
-    border-color 0.25s var(--ease);
+    border-color 0.25s var(--ease),
+    color 0.25s var(--ease);
 }
 
 .lightboxAction:hover {
   background: rgba(246, 247, 248, 0.12);
+  color: #fff;
 }
 
 .lightboxAction:disabled {
@@ -574,6 +654,7 @@
 .infoHead button {
   display: flex;
   color: inherit;
+  transition: color 0.25s var(--ease);
 }
 
 .infoHead button:hover {
@@ -626,6 +707,7 @@
   border: 0;
   border-bottom: 1px solid rgba(246, 247, 248, 0.18);
   border-radius: 0;
+  transition: border-color 0.3s var(--ease);
   background: transparent;
   color: #f6f7f8;
   font-size: 13.5px;

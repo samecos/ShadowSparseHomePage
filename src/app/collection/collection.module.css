@@ -17,12 +17,25 @@
   background: rgba(251, 252, 252, 0.72);
 }
 
+.agentPanelTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.agentPanelSection {
+  margin-top: 48px;
+}
+
 .agentPanelTitle {
   display: inline-flex;
   align-items: center;
   gap: 9px;
+  color: var(--ink-faint);
   font-size: 11px;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .agentPanel p {
@@ -47,6 +60,22 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.filters :global(.chip) {
+  transition:
+    border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.filters :global(.chip):hover {
+  border-color: rgba(101, 128, 146, 0.55);
+  color: var(--accent-deep);
+}
+
+.filters :global(.chip--active):hover {
+  border-color: var(--ink);
+  color: var(--paper-soft);
 }
 
 .search {
@@ -79,6 +108,22 @@
   margin-top: 26px;
 }
 
+.grid > * {
+  animation: card-in 0.85s var(--ease) backwards;
+}
+
+.grid > *:nth-child(4n + 2) {
+  animation-delay: 0.08s;
+}
+
+.grid > *:nth-child(4n + 3) {
+  animation-delay: 0.16s;
+}
+
+.grid > *:nth-child(4n + 4) {
+  animation-delay: 0.24s;
+}
+
 .card {
   position: relative;
   display: flex;
@@ -94,10 +139,30 @@
     background 0.35s var(--ease);
 }
 
-.card:hover {
+.card::before {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: rgba(101, 128, 146, 0.6);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s var(--ease);
+}
+
+.card:hover,
+.card:focus-visible {
   border-color: rgba(101, 128, 146, 0.5);
   background: rgba(251, 252, 252, 0.92);
   transform: translateY(-2px);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+  transform: scaleX(1);
 }
 
 .card[data-type='image'] {
@@ -106,7 +171,8 @@
   background: transparent;
 }
 
-.card[data-type='image']:hover {
+.card[data-type='image']:hover,
+.card[data-type='image']:focus-visible {
   background: transparent;
 }
 
@@ -137,6 +203,8 @@
   overflow: hidden;
   aspect-ratio: 4 / 3;
   background: var(--paper-deep);
+  outline: 1px solid var(--line);
+  transition: outline-color 0.45s var(--ease);
 }
 
 .card[data-type='image'] .cardImage {
@@ -158,6 +226,11 @@
   filter: saturate(0.92);
 }
 
+.card:hover .cardImage,
+.card:focus-visible .cardImage {
+  outline-color: rgba(101, 128, 146, 0.45);
+}
+
 .cardBody {
   display: flex;
   flex: 1;
@@ -171,6 +244,16 @@
   font-size: 21px;
   font-weight: 400;
   line-height: 1.5;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: text-decoration-color 0.4s var(--ease);
+}
+
+.card:hover .cardTitle,
+.card:focus-visible .cardTitle {
+  text-decoration-color: rgba(101, 128, 146, 0.6);
 }
 
 .cardDescription {
@@ -189,6 +272,7 @@
   font-family: var(--font-display);
   font-size: clamp(21px, 2.1vw, 27px);
   line-height: 1.7;
+  text-wrap: balance;
 }
 
 .quoteMark {
@@ -247,6 +331,17 @@
   }
 }
 
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .agentNote {
   display: flex;
   align-items: flex-start;
@@ -272,7 +367,17 @@
   margin-top: auto;
   color: var(--ink-faint);
   font-size: 10px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cardFooter svg {
+  transition: transform 0.35s var(--ease);
+}
+
+.card:hover .cardFooter svg,
+.card:focus-visible .cardFooter svg {
+  transform: translate(3px, -3px);
 }
 
 .empty {
@@ -282,6 +387,16 @@
   font-family: var(--font-display);
   font-size: 18px;
   text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid > * {
+    animation: none;
+  }
+
+  .momentLines i {
+    animation: none;
+  }
 }
 
 @media (max-width: 980px) {

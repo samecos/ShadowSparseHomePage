@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
+import type { CSSProperties } from 'react';
 import { site } from '@/lib/site';
 import type { Photo } from '@/lib/types';
 import styles from './region-album.module.css';
@@ -123,11 +124,12 @@ export function RegionAlbum({
             <span className={styles.cityCount}>{group.items.length}</span>
           </h2>
           <div className={styles.cityGrid}>
-            {group.items.map((photo) => (
+            {group.items.map((photo, index) => (
               <button
                 key={photo.id}
                 type="button"
                 className={styles.photoTile}
+                style={{ '--stagger': String(Math.min(index, 8)) } as CSSProperties}
                 onClick={() => onOpenPhoto(photo.id, group.items)}
                 aria-label={photo.title || photo.locationName || '查看照片'}
               >

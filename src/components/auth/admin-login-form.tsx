@@ -47,10 +47,10 @@ export function AdminLoginForm({ entryKey }: { entryKey: string }) {
         <p>输入管理口令。登录后可以发布日常说说，并编辑地图故事。</p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          <label className="field">
-            <span className="field__label">口令</span>
+          <label className={`field ${styles.field}`}>
+            <span className={`field__label ${styles.label}`}>口令</span>
             <input
-              className="input"
+              className={`input ${styles.input}`}
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -61,7 +61,7 @@ export function AdminLoginForm({ entryKey }: { entryKey: string }) {
             />
           </label>
           {error ? <p className={styles.error}>{error}</p> : null}
-          <button className="btn btn--primary" type="submit" disabled={submitting}>
+          <button className={`btn btn--primary ${styles.button}`} type="submit" disabled={submitting}>
             {submitting ? '验证中…' : '进入'}
           </button>
         </form>
