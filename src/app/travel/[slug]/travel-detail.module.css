@@ -217,6 +217,13 @@
   margin-top: 44px;
 }
 
+.prepGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 52px;
+  margin-top: 52px;
+}
+
 .planColumn,
 .sideColumn {
   min-width: 0;
@@ -305,16 +312,142 @@
 
 .planItem {
   display: grid;
-  grid-template-columns: 54px minmax(0, 1fr) 18px;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
   gap: 14px;
   align-items: start;
   padding: 17px 0 0;
 }
 
 .itemTime {
+  display: grid;
+  gap: 7px;
+  justify-items: start;
   color: var(--ink-faint);
   font-family: var(--font-display);
   font-size: 13px;
+}
+
+.itemBadge {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid rgba(25, 29, 34, 0.35);
+  border-radius: 50%;
+  background: rgba(246, 247, 248, 0.92);
+  color: var(--accent-deep);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+
+.itemBadge:hover {
+  background: var(--accent-deep);
+  color: #fff;
+}
+
+.pointLink {
+  cursor: pointer;
+  border-radius: 12px;
+  transition:
+    background 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+.pointLink:hover {
+  background: rgba(63, 88, 106, 0.05);
+  box-shadow: 0 0 0 8px rgba(63, 88, 106, 0.05);
+}
+
+.pointActive,
+.pointActive:hover {
+  background: rgba(63, 88, 106, 0.1);
+  box-shadow: 0 0 0 8px rgba(63, 88, 106, 0.1);
+}
+
+.itemActions,
+.reservationActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.itemActions {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+.itemActions a {
+  color: var(--accent-deep);
+}
+
+.itemActions button,
+.reservationActions button,
+.textButton,
+.checkDelete {
+  padding: 0;
+  color: var(--ink-faint);
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+
+.itemActions button:hover,
+.reservationActions button:hover,
+.textButton:hover,
+.checkDelete:hover {
+  color: var(--accent-deep);
+}
+
+.reservationActions {
+  margin-top: 8px;
+}
+
+.checkDelete {
+  display: inline-flex;
+  margin-left: auto;
+}
+
+.textButton {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+}
+
+.metaForm,
+.editForm {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: rgba(251, 252, 252, 0.56);
+}
+
+.metaForm {
+  margin-top: 26px;
+}
+
+.editForm {
+  margin-top: 16px;
+}
+
+.editFormActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.dayTitleRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .planItem strong,
@@ -447,8 +580,29 @@
   margin-top: 52px;
 }
 
-.mapBlock > :global(.wrapper) {
+.mapBlock > div + div {
   margin-top: 18px;
+}
+
+.mapSticky {
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  align-self: start;
+  margin-top: 0;
+}
+
+.duringGrid,
+.afterGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 52px;
+  align-items: start;
+  margin-top: 44px;
+}
+
+.duringGrid .timeline,
+.afterGrid .memoryList {
+  margin-top: 0;
 }
 
 .entryComposer {
@@ -643,6 +797,9 @@
 
 .memoryItem > span,
 .memoryEntry > span {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
   color: var(--ink-faint);
   font-size: 11px;
 }
@@ -683,7 +840,14 @@
   .entryComposer,
   .recapActions,
   .mapBlock,
-  .error {
+  .error,
+  .textButton,
+  .itemActions,
+  .reservationActions,
+  .checkDelete,
+  .metaForm,
+  .editForm,
+  .dayTitleRow {
     display: none !important;
   }
 
@@ -719,8 +883,15 @@
   }
 
   .planningGrid,
-  .recapGrid {
+  .recapGrid,
+  .duringGrid,
+  .afterGrid,
+  .prepGrid {
     grid-template-columns: 1fr;
+  }
+
+  .mapSticky {
+    position: static;
   }
 }
 
