@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowUpRight } from '@/components/icons';
+import { IntroRitual } from '@/components/site/intro-ritual';
 import { PageBackdrop } from '@/components/site/page-backdrop';
 import { formatDate } from '@/lib/format';
 import { site } from '@/lib/site';
@@ -99,6 +100,7 @@ export default async function HomePage() {
 
   return (
     <main className="main">
+      <IntroRitual />
       <div className="shell">
         <section className={`${styles.hero} reveal`}>
           <PageBackdrop src="/photos/photo-01.png" />
